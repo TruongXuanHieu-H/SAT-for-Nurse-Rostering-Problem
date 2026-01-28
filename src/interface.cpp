@@ -12,6 +12,7 @@
 #include "utils/usage.h"
 #include "utils/version.h"
 #include "enum/encode_type.h"
+#include "encoder/nrp_solver.h"
 
 int get_number_arg(std::string const &arg)
 {
@@ -139,5 +140,8 @@ int main(int argc, char **argv)
         }
     }
 
+    NRPSolver *solver = new NRPSolver();
+    solver->encode_and_solve();
+    delete solver;
     return 0;
 }
