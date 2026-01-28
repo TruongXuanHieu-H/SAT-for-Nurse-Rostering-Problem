@@ -1,25 +1,45 @@
-#include <map>
+#include <vector>
 #include <string>
 #include <iostream>
 #include <iomanip>
 
 #include "usage.h"
 
-const std::map<std::string, std::string> Helper::option_list = {
-    {"--help", "Print usage message with all possible options"},
-    {"--ladder", "Use ladder encoding [default: true]"},
-    {"--check-solution", "Calculate the cyclic antibandwidth of the found SAT solution and compare it to the actual width [default: false]"},
-    {"--from-ub", "Start solving with width = UB, decreasing in each iteration [default: false]"},
-    {"--from-lb", "Start solving with width = LB, increasing in each iteration [default: true]"},
-    {"--bin-search", "Start solving with LB+UB/2 and update LB or UB according to SAT/UNSAT result and repeat"},
-    {"-split-size <n>", "Maximal allowed length of clauses, every longer clause is split up into two by introducing a new variable"},
-    {"-set-lb <new LB>", "Overwrite predefined LB with <new LB>, has to be at least 2"},
-    {"-set-ub <new UB>", "Overwrite predefined UB with <new UB>, has to be positive"},
+const std::vector<std::pair<std::string, std::string>> Helper::option_list = {
+    // Encoding selection (choose one)
+    {"--bdd",        "Use BDD encoding"},
+    {"--card",       "Use cardinality encoding"},
+    {"--pairwise",   "Use pairwise encoding"},
+    {"--scl",        "Use SCL encoding"},
+    {"--seq",        "Use sequential counter encoding"},
+
+    // Verification
+    {"--check-solution",
+     "Verify the final SAT solution against the actual objective [default: false]"},
+
+    // Limits
+    {"-limit-memory <MB>",
+     "Limit total memory usage in megabytes (must be positive)"},
+    {"-limit-real-time <sec>",
+     "Limit real time of main process in seconds (must be positive)"},
+    {"-limit-elapsed-time <sec>",
+     "Limit total elapsed time of all processes in seconds (must be positive)"},
+
+    // Statistics
+    {"-sample-rate <microseconds>",
+     "Create a sample every <microseconds> microseconds (must be positive)"},
+    {"-report-rate <samples>",
+     "Print a log every <samples> samples (must be positive)"},
+
+    // CNF handling
+    {"-split-size <n>",
+     "Split clauses longer than <n> literals. Set to 0 to disable splitting (must be non-negative)"}
 };
+
 
 void Helper::print_usage()
 {
-    std::cout << "c [Usage] Usage: abw_enc path_to_graph_file/graph_file.mtx.rnd [ <option> ... ].\n";
+    std::cout << "c [Usage] Usage: nrp_enc <number_of_nurses> <schedule_period> [ <option> ... ].\n";
     std::cout << "c [Usage] where '<option>' is one of the following options:\n";
     std::cout << std::endl;
     for (const auto &option : option_list)

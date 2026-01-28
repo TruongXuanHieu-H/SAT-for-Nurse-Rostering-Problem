@@ -10,7 +10,7 @@ GlobalData::~GlobalData() {}
 
 EncodeType GlobalData::_encode_type = EncodeType::SCL;
 
-bool GlobalData::_enable_solution_verification = true;
+bool GlobalData::_enable_solution_verification = false;
 int GlobalData::_max_cnf_size = 0;
 
 int GlobalData::_number_nurses = 0;
@@ -50,6 +50,12 @@ int GlobalData::get_max_cnf_size()
 }
 bool GlobalData::set_max_cnf_size(int limit)
 {
+    if (limit < 0)
+    {
+        std::cerr << "e [Config] Error, maximum CNF clause size has to be non-negative.\n";
+        return false;
+    }
+    
     GlobalData::_max_cnf_size = limit;
     std::cout << "c [Config] Maximum CNF clause size is set to " << GlobalData::_max_cnf_size << ".\n";
     return true;
@@ -62,6 +68,12 @@ int GlobalData::get_number_nurses()
 }
 bool GlobalData::set_number_nurses(int n)
 {
+    if (n <= 0)
+    {
+        std::cerr << "e [Config] Error, number of nurses has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_number_nurses = n;
     std::cout << "c [Config] Number of nurses is set to " << GlobalData::_number_nurses << ".\n";
     return true;
@@ -72,6 +84,12 @@ int GlobalData::get_schedule_period()
 }
 bool GlobalData::set_schedule_period(int days)
 {
+    if (days <= 0)
+    {
+        std::cerr << "e [Config] Error, schedule period has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_schedule_period = days;
     std::cout << "c [Config] Schedule period is set to " << GlobalData::_schedule_period << ".\n";
     return true;
@@ -83,6 +101,12 @@ int GlobalData::get_sample_rate()
 }
 bool GlobalData::set_sample_rate(int rate)
 {
+    if (rate <= 0)
+    {
+        std::cerr << "e [Config] Error, sample rate has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_sample_rate = rate;
     std::cout << "c [Config] Sample rate is set to " << GlobalData::_sample_rate << ".\n";
     return true;
@@ -93,6 +117,12 @@ int GlobalData::get_report_rate()
 }
 bool GlobalData::set_report_rate(int rate)
 {
+    if (rate <= 0)
+    {
+        std::cerr << "e [Config] Error, report rate has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_report_rate = rate;
     std::cout << "c [Config] Report rate is set to " << GlobalData::_report_rate << ".\n";
     return true;
@@ -104,26 +134,46 @@ float GlobalData::get_memory_limit()
 }
 bool GlobalData::set_memory_limit(float limit)
 {
+    if (limit <= 0)
+    {
+        std::cerr << "e [Config] Error, memory limit has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_memory_limit = limit;
     std::cout << "c [Config] Memory limit is set to " << GlobalData::_memory_limit << ".\n";
     return true;
 }
+
 float GlobalData::get_real_time_limit()
 {
     return GlobalData::_real_time_limit;
 }
 bool GlobalData::set_real_time_limit(float limit)
 {
+    if (limit <= 0)
+    {
+        std::cerr << "e [Config] Error, real time limit has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_real_time_limit = limit;
     std::cout << "c [Config] Real time limit is set to " << GlobalData::_real_time_limit << ".\n";
     return true;
 }
+
 float GlobalData::get_elapsed_time_limit()
 {
     return GlobalData::_elapsed_time_limit;
 }
 bool GlobalData::set_elapsed_time_limit(float limit)
 {
+    if (limit <= 0)
+    {
+        std::cerr << "e [Config] Error, elapsed time limit has to be positive.\n";
+        return false;
+    }
+
     GlobalData::_elapsed_time_limit = limit;
     std::cout << "c [Config] Elapsed time limit is set to " << GlobalData::_elapsed_time_limit << ".\n";
     return true;
