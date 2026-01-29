@@ -8,7 +8,7 @@ public:
 
     int peek_next_var();        // Get the next variable ID without incrementing counter (see only)
     int pop_next_var();         // Get the next variable ID and increment counter
-    int size() const;
+    int count();                // Get the total number of variables used
 
 private:
     int start_id;

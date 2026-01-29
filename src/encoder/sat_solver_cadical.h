@@ -7,7 +7,7 @@
 class SATSolverCadical : public SATSolver
 {
 public:
-    SATSolverCadical();
+    SATSolverCadical(VarHandler *var_handler);
     ~SATSolverCadical() override;
 
     void add_clause(const Clause &c) override;

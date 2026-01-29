@@ -18,16 +18,28 @@ void NRPEncoderSCL::encode_instance()
 {
     // Implementation of SCL encoding goes here   
 
-    // Encode shift variables
+    // Encode daily shift assignment constraints (nurse works at exactly one shift per day, D, E, N, O)
     for (int i = 0; i < number_of_nurses; ++i)
     {
         for (int j = 0; j < schedule_period; ++j)
         {
-            // Example: Create variables and clauses for nurse i on day j
-            // This is a placeholder for actual encoding logic
-            Clause clause;
-            clause.push_back(i * schedule_period + j + 1); // Example variable
-            sat_solver->add_clause(clause);
+            for (int k1 = 0; k1 < 4; ++k1)
+            {
+                for (int k2 = k1 + 1; k2 < 4; ++k2)
+                {
+                    Clause amo;
+                    amo.push_back(-shift_schedule[i][j][k1]);
+                    amo.push_back(-shift_schedule[i][j][k2]);
+                    sat_solver->add_clause(amo);
+                }
+            }
+
+            Clause alo;
+            alo.push_back(shift_schedule[i][j][0]); // Day
+            alo.push_back(shift_schedule[i][j][1]); // Evening
+            alo.push_back(shift_schedule[i][j][2]); // Night
+            alo.push_back(shift_schedule[i][j][3]); // Off
+            sat_solver->add_clause(alo);
         }
     }
 }

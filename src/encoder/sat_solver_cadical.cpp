@@ -3,7 +3,7 @@
 #include <iostream>
 #include <csignal>
 
-SATSolverCadical::SATSolverCadical()
+SATSolverCadical::SATSolverCadical(VarHandler *var_handler) : SATSolver(var_handler)
 {
     solver = new CaDiCaL::Solver();
     std::cout << "c [SATSolverCaDiCaL] Initializing CaDiCaL (version " << solver->version() << ").\n";
@@ -24,6 +24,7 @@ SATSolverCadical::~SATSolverCadical()
 
 void SATSolverCadical::add_clause(const Clause &c)
 {
+    clauses.push_back(c);
     for (const auto &lit : c)
     {
         solver->add(lit);

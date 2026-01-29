@@ -201,8 +201,8 @@ void NRPSolver::create_nrp_pid()
 
 int NRPSolver::do_nrp_task()
 {
-    sat_solver = new SATSolverCadical();
     var_handler = new VarHandler(1);
+    sat_solver = new SATSolverCadical(var_handler);
 
     switch (GlobalData::get_encode_type())
     {

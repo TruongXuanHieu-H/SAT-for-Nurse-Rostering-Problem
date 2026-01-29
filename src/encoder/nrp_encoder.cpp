@@ -5,6 +5,8 @@ NRPEncoder::NRPEncoder(SATSolver *sat_solver, VarHandler *var_handler) : sat_sol
     number_of_nurses = GlobalData::get_number_nurses();
     schedule_period = GlobalData::get_schedule_period();
 
+
+    // Init shift schedule variables
     shift_schedule = new int**[number_of_nurses];
     for (int i = 0; i < number_of_nurses; ++i)
     {
