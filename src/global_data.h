@@ -12,7 +12,7 @@ protected:
     static EncodeType _encode_type;
 
     static bool _enable_solution_verification;   // Enable to verify the final solution
-    static int _max_cnf_size;                     // Maximum size of CNF clauses
+    // static int _max_cnf_size;                     // Maximum size of CNF clauses
 
     // Data
     static int _number_nurses;              // Number of nurses

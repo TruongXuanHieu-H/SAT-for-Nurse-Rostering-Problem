@@ -11,7 +11,7 @@ GlobalData::~GlobalData() {}
 EncodeType GlobalData::_encode_type = EncodeType::SCL;
 
 bool GlobalData::_enable_solution_verification = false;
-int GlobalData::_max_cnf_size = 0;
+// int GlobalData::_max_cnf_size = 0;
 
 int GlobalData::_number_nurses = 0;
 int GlobalData::_schedule_period = 0;
@@ -44,22 +44,22 @@ bool GlobalData::set_enable_solution_verification(bool enable)
     std::cout << "c [Config] Solution verification is " << (GlobalData::_enable_solution_verification ? "enabled" : "disabled") << ".\n";
     return true;
 }
-int GlobalData::get_max_cnf_size()
-{
-    return GlobalData::_max_cnf_size;
-}
-bool GlobalData::set_max_cnf_size(int limit)
-{
-    if (limit < 0)
-    {
-        std::cerr << "e [Config] Error, maximum CNF clause size has to be non-negative.\n";
-        return false;
-    }
+// int GlobalData::get_max_cnf_size()
+// {
+//     return GlobalData::_max_cnf_size;
+// }
+// bool GlobalData::set_max_cnf_size(int limit)
+// {
+//     if (limit < 0)
+//     {
+//         std::cerr << "e [Config] Error, maximum CNF clause size has to be non-negative.\n";
+//         return false;
+//     }
     
-    GlobalData::_max_cnf_size = limit;
-    std::cout << "c [Config] Maximum CNF clause size is set to " << GlobalData::_max_cnf_size << ".\n";
-    return true;
-}
+//     GlobalData::_max_cnf_size = limit;
+//     std::cout << "c [Config] Maximum CNF clause size is set to " << GlobalData::_max_cnf_size << ".\n";
+//     return true;
+// }
 
 
 int GlobalData::get_number_nurses()

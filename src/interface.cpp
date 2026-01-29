@@ -127,12 +127,12 @@ int main(int argc, char **argv)
             if (!GlobalData::set_report_rate(report_rate))
                 return 1;
         }
-        else if (argv[i] == std::string("-split-size"))
-        {
-            int split_size = get_number_arg(argv[++i]);
-            if (!GlobalData::set_max_cnf_size(split_size))
-                return 1;
-        }
+        // else if (argv[i] == std::string("-split-size"))
+        // {
+        //     int split_size = get_number_arg(argv[++i]);
+        //     if (!GlobalData::set_max_cnf_size(split_size))
+        //         return 1;
+        // }
         else
         {
             std::cerr << "e [Param] Unrecognized option: " << argv[i] << std::endl;
