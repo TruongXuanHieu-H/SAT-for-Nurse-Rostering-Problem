@@ -37,7 +37,8 @@ SOURCES := \
 	utils/version.cpp \
 	utils/usage.cpp \
 	utils/signal_handler.cpp \
-	utils/pid_manager.cpp
+	utils/pid_manager.cpp \
+	encoder/nrp_solver.cpp
 
 # ================================
 # Object files
