@@ -141,7 +141,11 @@ int main(int argc, char **argv)
     }
 
     NRPSolver *solver = new NRPSolver();
+    
     solver->encode_and_solve();
+
     delete solver;
+    solver = nullptr;
+
     return 0;
 }

@@ -32,13 +32,17 @@ INCLUDES := -I$(CADICAL_INC)
 # Source files
 # ================================
 SOURCES := \
-	interface.cpp \
-	global_data.cpp \
+	encoder/nrp_encoder_scl.cpp \
+	encoder/nrp_encoder.cpp \
+	encoder/sat_solver_cadical.cpp \
+	encoder/nrp_solver.cpp \
+	encoder/var_handler.cpp \
 	utils/version.cpp \
 	utils/usage.cpp \
 	utils/signal_handler.cpp \
 	utils/pid_manager.cpp \
-	encoder/nrp_solver.cpp
+	global_data.cpp \
+	interface.cpp 
 
 # ================================
 # Object files

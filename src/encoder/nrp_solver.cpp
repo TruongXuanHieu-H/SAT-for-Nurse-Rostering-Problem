@@ -1,6 +1,9 @@
 #include "nrp_solver.h"
+#include "nrp_encoder_scl.h"
 #include "../utils/pid_manager.h"
 #include "../global_data.h"
+#include "sat_solver_cadical.h"
+#include "var_handler.h"
 
 #include <sys/mman.h>
 #include <sys/prctl.h>
@@ -168,7 +171,7 @@ void NRPSolver::create_limit_pid()
     }
     else
     {
-        std::cout << "c Lim pid is forked at " << lim_pid << ".\n";
+        std::cout << "c [Main] Lim pid is forked at " << lim_pid << ".\n";
     }
 }
 
@@ -192,14 +195,53 @@ void NRPSolver::create_nrp_pid()
     }
     else
     {
-        std::cout << "c NRP pid is forked at " << nrp_pid << ".\n";
+        std::cout << "c [Main] NRP pid is forked at " << nrp_pid << ".\n";
     }
 }
 
 int NRPSolver::do_nrp_task()
 {
+    sat_solver = new SATSolverCadical();
+    var_handler = new VarHandler(1);
+
+    switch (GlobalData::get_encode_type())
+    {
+        case EncodeType::BDD:
+            break;
+        case EncodeType::Card:
+            break;
+        case EncodeType::Pairwise:
+            break;
+        case EncodeType::SCL:
+            nrp_encoder = new NRPEncoderSCL(sat_solver, var_handler);
+            break;
+        case EncodeType::Seq:
+            break;
+        default:
+            std::cerr << "e [NRP] Unsupported encoding type.\n";
+            return -1;
+    }
+
+    nrp_encoder->encode_instance();
+
     // Child process: perform the task
     int result = 0;
+
+    if (nrp_encoder)
+    {
+        delete nrp_encoder;
+        nrp_encoder = nullptr;
+    }
+    if (sat_solver) 
+    {
+        delete sat_solver;
+        sat_solver = nullptr;
+    }
+    if (var_handler)
+    {
+        delete var_handler;
+        var_handler = nullptr;
+    }
 
     exit(result);
 }
