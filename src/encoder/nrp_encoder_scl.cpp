@@ -140,7 +140,6 @@ void NRPEncoderSCL::encode_at_least_20_work_shifts_every_28_days()
 
 void NRPEncoderSCL::encode_at_least_4_off_days_every_14_days()
 {
-    std::cout << "c [NRPEncoderSCL] Encoding at least 4 off days every 14 days as at most 10 work days every 14 days.\n";
     // At most 10 work days every 14 days -> at least 4 off days every 14 days
     std::vector<std::vector<int>> work_days(number_of_nurses, std::vector<int>(schedule_period, 0));
     for (int i = 0; i < number_of_nurses; ++i)
@@ -155,22 +154,97 @@ void NRPEncoderSCL::encode_at_least_4_off_days_every_14_days()
     {
         encode_ladder_amk_constraint(work_days[i], 14, 10);
     }
-    std::cout << "c [NRPEncoderSCL] Finished encoding at least 4 off days every 14 days.\n";
 }
 
 void NRPEncoderSCL::encode_between_1_and_4_night_shifts_every_14_days()
 {
-    // Implementation goes here
+    // At least 1 night shift every 14 days - Using pairwise encoding
+    std::vector<std::vector<int>> night_shift(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            night_shift[i][j] = shift_schedule[i][j][2]; // Night shift
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; i++) 
+    {
+        for (int j = 0; j <= schedule_period - 14; j++)
+        {
+            Clause clause;
+            for (int m = 0; m < 14; m++) 
+            {
+                clause.push_back(night_shift[i][j + m]);
+            }
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
+
+    // At most 4 night shifts every 14 days
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(night_shift[i], 14, 4);
+    }
 }
 
 void NRPEncoderSCL::encode_between_4_and_8_evening_shifts_every_14_days()
 {
-    // Implementation goes here
+    // At most 10 non-evening shifts every 14 days -> at least 4 evening shifts every 14 days
+    std::vector<std::vector<int>> non_evening_shifts(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            non_evening_shifts[i][j] = -shift_schedule[i][j][1]; // Non-evening shifts
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(non_evening_shifts[i], 14, 10);
+    }
+
+    // At most 8 evening shifts every 14 days
+    std::vector<std::vector<int>> evening_shifts(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            evening_shifts[i][j] = shift_schedule[i][j][1]; // Evening shifts
+        }
+    }
+
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(evening_shifts[i], 14, 8);
+    }
 }
 
 void NRPEncoderSCL::encode_night_shifts_cannot_appear_on_consecutive_days()
 {
-    // Implementation goes here
+    std::vector<std::vector<int>> night_shift(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            night_shift[i][j] = shift_schedule[i][j][2]; // Night shift
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 2; j++)
+        {
+            Clause clause;
+            clause.push_back(-night_shift[i][j]);
+            clause.push_back(-night_shift[i][j+1]);
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
 }
 
 void NRPEncoderSCL::encode_between_2_and_4_evening_or_night_shifts_every_7_days()
