@@ -119,8 +119,6 @@ bool NRPSolver::encode_and_solve()
     // Report
     std::cout << "c ========= NRP SOLVER REPORT =========\n";
     std::cout << "c Peak memory:     " << *max_consumed_memory << " MB\n";
-    std::cout << "c Real time:       " << consumed_real_time << " s\n";
-    std::cout << "c Elapsed time:    " << consumed_elapsed_time << " s\n";
     std::cout << "c Wall clock time: " << wall_time << " s\n";
     std::cout << "c ====================================\n";
 

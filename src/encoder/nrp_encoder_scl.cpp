@@ -359,7 +359,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
     else 
     {
         // Encode equation (1)
-        std::cout << "Encode equation (1)\n";
         for (int j = 2; j <= w; ++j)
         {
             Clause clause;
@@ -370,7 +369,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
         }
 
         // Encode equation (2)
-        std::cout << "Encode equation (2)\n";
         for (int j = 2; j <= w; j++){
             for (int s = 1; s <= std::min(j - 1, k); s++)
             {
@@ -382,7 +380,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             }
         }
 
-        std::cout << "Encode equation (3)\n";
         // Encode equation (3)
         for (int j = 2; j <= w; j++){
             for (int s = 2; s <= std::min(j, k); s++)
@@ -396,7 +393,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             }
         }
 
-        std::cout << "Encode equation (4)\n";
         // Encode equation (4)
         for (int j = 2; j <= k && j <= w; ++j)
         {
@@ -407,7 +403,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             sat_solver->add_clause(clause);
         }
 
-        std::cout << "Encode equation (5)\n";
         // Encode equation (5)
         for (int j = 2; j <= w; j++){
             for (int s = 2; s <= std::min(j, k); s++)
@@ -420,7 +415,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             }
         }
 
-        std::cout << "Encode equation (6)\n";
         // Encode equation (6)
         for (int j = 2; j <= w; j++){
             for (int s = 1; s <= std::min(j - 1, k); s++)
