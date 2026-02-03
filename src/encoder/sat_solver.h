@@ -14,7 +14,7 @@ public:
 
     virtual void add_clause(const Clause &c) = 0;
     virtual int solve() = 0;
-    virtual std::vector<int> extract_result() = 0;
+    virtual std::vector<std::vector<std::vector<bool>>> extract_result() = 0;
 
     int get_clause_count();
 

@@ -37,11 +37,23 @@ int SATSolverCadical::solve()
     return solver->solve();
 }
 
-std::vector<int> SATSolverCadical::extract_result()
+std::vector<std::vector<std::vector<bool>>> SATSolverCadical::extract_result()
 {
-    std::vector<int> result;
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
 
-    // Extract the assignment for all variables
+    std::vector<std::vector<std::vector<bool>>> result(number_of_nurses, std::vector<std::vector<bool>>(schedule_period, std::vector<bool>(4, false)));
 
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            for (int k = 0; k < 4; ++k)
+            {
+                int var = k + j * 4 + i * schedule_period * 4 + 1; // Variable numbering starts from 1
+                result[i][j][k] = (solver->val(var) > 0);
+            }
+        }
+    }
     return result;
 }

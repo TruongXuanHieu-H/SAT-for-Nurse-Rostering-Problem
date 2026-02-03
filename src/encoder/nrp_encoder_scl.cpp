@@ -1,11 +1,25 @@
 #include "nrp_encoder_scl.h"
 
 #include <iostream>
+#include <algorithm>
 #include "sat_solver.h"
 #include "var_handler.h"
+#include <numeric> 
 
 NRPEncoderSCL::NRPEncoderSCL(SATSolver *sat_solver, VarHandler *var_handler) : NRPEncoder(sat_solver, var_handler)
 {
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            for (int k = 0; k < 4; ++k)
+            {
+                aux_vars[std::to_string(shift_schedule[i][j][k]) + ",1"] = shift_schedule[i][j][k]; // Prepopulate aux_vars with basic shift variables
+                aux_vars[std::to_string(-shift_schedule[i][j][k]) + ",1"] = -shift_schedule[i][j][k];
+            }
+        }
+    }
+
     std::cout << "c [NRPEncoderSCL] Encoder initialized for " << number_of_nurses << " nurses over " << schedule_period << " days.\n";
 }
 
@@ -14,11 +28,72 @@ NRPEncoderSCL::~NRPEncoderSCL()
     std::cout << "c [NRPEncoderSCL] Encoder destroyed.\n";
 }
 
+std::vector<int> NRPEncoderSCL::normalize_expression(const std::vector<int>& elements)
+{
+    std::vector<int> sorted_clause = elements;
+    std::sort(sorted_clause.begin(), sorted_clause.end());
+    sorted_clause.erase(std::unique(sorted_clause.begin(), sorted_clause.end()), sorted_clause.end());
+    if (elements.size() != sorted_clause.size())
+    {
+        std::cerr << "w [NRPEncoderSCL] Warning: Duplicate literals found in expression during normalization ";
+        print_vector(elements);
+        std::cout << "\n";
+        exit(-1);
+    }
+    return sorted_clause;
+}
+
+std::string NRPEncoderSCL::get_aux_key(const std::vector<int>& values, int sum)
+{
+    std::vector<int> normalized_expression = normalize_expression(values);
+    std::string key;
+    for (size_t i = 0; i < normalized_expression.size(); ++i)
+    {
+        key += std::to_string(normalized_expression[i]);
+        key += ",";
+    }
+    key += std::to_string(sum);
+    return key;
+}
+
+int NRPEncoderSCL::get_aux_value(const std::string& key)
+{
+    auto it = aux_vars.find(key);
+    if (it != aux_vars.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        int new_var = var_handler->pop_next_var();
+        aux_vars[key] = new_var;
+        return new_var;
+    }
+}
+
+int NRPEncoderSCL::get_aux_value(const std::vector<int>& values, int sum)
+{
+    std::string key = get_aux_key(values, sum);
+    return get_aux_value(key);
+}
+
 void NRPEncoderSCL::encode_instance()
 {
-    // Implementation of SCL encoding goes here   
+    encode_at_most_1_shift_every_day();
+    encode_at_least_20_work_shifts_every_28_days();
+    is_print_clause = true;
+    encode_at_least_4_off_days_every_14_days();
+    encode_between_1_and_4_night_shifts_every_14_days();
+    encode_between_4_and_8_evening_shifts_every_14_days();
+    encode_night_shifts_cannot_appear_on_consecutive_days();
+    encode_between_2_and_4_evening_or_night_shifts_every_7_days();
+    encode_at_most_6_work_shifts_every_7_days();
 
-    // Encode daily shift assignment constraints (nurse works at exactly one shift per day, D, E, N, O)
+    print_aux_vars();
+}
+
+void NRPEncoderSCL::encode_at_most_1_shift_every_day()
+{
     for (int i = 0; i < number_of_nurses; ++i)
     {
         for (int j = 0; j < schedule_period; ++j)
@@ -40,6 +115,366 @@ void NRPEncoderSCL::encode_instance()
             alo.push_back(shift_schedule[i][j][2]); // Night
             alo.push_back(shift_schedule[i][j][3]); // Off
             sat_solver->add_clause(alo);
+        }
+    }
+}
+
+void NRPEncoderSCL::encode_at_least_20_work_shifts_every_28_days()
+{
+    // At most 8 off days every 28 days -> at least 20 work shifts every 28 days
+
+    std::vector<std::vector<int>> off_days(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            off_days[i][j] = shift_schedule[i][j][3]; // Off shift
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(off_days[i], 28, 8);
+    }
+}
+
+void NRPEncoderSCL::encode_at_least_4_off_days_every_14_days()
+{
+    std::cout << "c [NRPEncoderSCL] Encoding at least 4 off days every 14 days as at most 10 work days every 14 days.\n";
+    // At most 10 work days every 14 days -> at least 4 off days every 14 days
+    std::vector<std::vector<int>> work_days(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            work_days[i][j] = -shift_schedule[i][j][3]; // Work day = - off day
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(work_days[i], 14, 10);
+    }
+    std::cout << "c [NRPEncoderSCL] Finished encoding at least 4 off days every 14 days.\n";
+}
+
+void NRPEncoderSCL::encode_between_1_and_4_night_shifts_every_14_days()
+{
+    // Implementation goes here
+}
+
+void NRPEncoderSCL::encode_between_4_and_8_evening_shifts_every_14_days()
+{
+    // Implementation goes here
+}
+
+void NRPEncoderSCL::encode_night_shifts_cannot_appear_on_consecutive_days()
+{
+    // Implementation goes here
+}
+
+void NRPEncoderSCL::encode_between_2_and_4_evening_or_night_shifts_every_7_days()
+{
+    // Implementation goes here
+}
+
+void NRPEncoderSCL::encode_at_most_6_work_shifts_every_7_days()
+{
+    // Implementation goes here
+}
+
+void NRPEncoderSCL::encode_ladder_amk_constraint(const std::vector<int>& ladder_literals, int width, int k)
+{
+    std::cout << "c [NRPEncoderSCL] Encoding ladder AMK constraint with width " << width << " and k = " << k << ".\n";
+    print_vector(ladder_literals);
+    std::cout << "\n";
+
+    std::vector<std::vector<int>> windows = split_windows(ladder_literals, width);
+
+    for (int i = 0; i < (int)windows.size(); ++i)
+    {
+        bool is_first_window = (i == 0);
+        bool is_last_window = (i == (int)windows.size() - 1);
+        encode_window(windows[i], width, k, is_first_window, is_last_window);
+    }
+
+    for (int i = 0; i < (int)windows.size() - 1; ++i)
+    {
+        connect_blocks(get_reversed_vector(windows[i]), windows[i + 1], width, k);
+    }
+}
+
+std::vector<std::vector<int>> NRPEncoderSCL::split_windows(const std::vector<int>& ladder_literals, int width)
+{
+    std::vector<std::vector<int>> windows;
+    for (int i = 0; i < (int)ladder_literals.size(); i += width)
+    {
+        std::vector<int> window;
+        for (int j = 0; j < width && (i + j) < (int)ladder_literals.size(); ++j)
+        {
+            window.push_back(ladder_literals[i + j]);
+        }
+        windows.push_back(window);
+    }
+    return windows;
+}
+
+void NRPEncoderSCL::encode_window(const std::vector<int>& window_literals, int width, int k, bool is_first_window, bool is_last_window)
+{
+    // Implementation of window encoding goes here
+    if (is_first_window)
+    {
+        // Handle first window specifics
+        if ((int)window_literals.size() != width)
+        {
+            std::cerr << "[NRPEncoderSCL] First window has invalid width.\n";
+            exit(-1);
+        }
+
+        std::vector<int> amk_block_literals = get_reversed_vector(window_literals);
+        encode_amk_block(amk_block_literals, width, k);
+    }
+    else if (is_last_window)
+    {
+        // Handle last window specifics
+        std::vector<int> amk_block_literals = window_literals;
+        encode_amk_block(amk_block_literals, width, k);
+    }
+    else
+    {
+        // Handle middle windows specifics
+        if ((int)window_literals.size() != width)
+        {
+            std::cerr << "[NRPEncoderSCL] Middle window has invalid width.\n";
+            exit(-1);
+        }
+
+        std::vector<int> amk_block_literals = window_literals;
+        encode_amk_block(amk_block_literals, width, k);
+        std::vector<int> connect_block_literals = get_reversed_vector(window_literals);
+        encode_connect_block(connect_block_literals, width, k);
+    }
+}
+
+void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals, int width, int k)
+{
+    std::cout << "c [NRPEncoderSCL] Encoding Connect block with width " << width << " and k = " << k << ".\n";
+    print_vector(block_literals);
+    std::cout << "\n";
+
+    int w = (int)block_literals.size();
+
+    if (w != width)
+    {
+        std::cerr << "[NRPEncoderSCL] Connect block has invalid width.\n";
+        exit(-1);
+    }
+    
+
+    // Encode equation (1)
+    for (int j = 2; j <= w - 1; ++j)
+    {
+        Clause clause;
+        clause.push_back(-block_literals[j - 1]);
+        clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), 1));
+        print_clause(clause);
+        sat_solver->add_clause(clause);
+    }
+
+    // Encode equation (2)
+    for (int j = 2; j <= w - 1; j++){
+        for (int s = 1; s <= std::min(j - 1, k); s++)
+        {
+            Clause clause;
+            clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s));
+            clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
+
+    // Encode equation (3)
+    for (int j = 2; j <= w - 1; j++){
+        for (int s = 2; s <= std::min(j, k); s++)
+        {
+            Clause clause;
+            clause.push_back(-block_literals[j - 1]);
+            clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
+            clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
+
+    // Encode equation (4)
+    for (int j = 2; j <= k; ++j)
+    {
+        Clause clause;
+        clause.push_back(block_literals[j - 1]);
+        clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), j));
+        print_clause(clause);
+        sat_solver->add_clause(clause);
+    }
+
+
+    // Encode equation (5)
+    for (int j = 2; j <= w - 1; j++){
+        for (int s = 2; s <= std::min(j, k); s++)
+        {
+            Clause clause;
+            clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
+            clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
+
+    // Encode equation (6)
+    for (int j = 2; j <= w - 1; j++){
+        for (int s = 1; s <= std::min(j - 1, k); s++)
+        {
+            Clause clause;
+            clause.push_back(block_literals[j - 1]);
+            clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s));
+            clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+    }
+}
+
+void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int width, int k)
+{    
+    std::cout << "c [NRPEncoderSCL] Encoding AMK block with width " << width << " and k = " << k << ".\n";
+    print_vector(block_literals);
+    std::cout << "\n";
+
+    int w = (int)block_literals.size();
+
+    if (w == width)
+    {
+        // Encode equations (1) to (6)
+        encode_connect_block(block_literals, width, k);
+    } 
+    else 
+    {
+        // Encode equation (1)
+        std::cout << "Encode equation (1)\n";
+        for (int j = 2; j <= w; ++j)
+        {
+            Clause clause;
+            clause.push_back(-block_literals[j - 1]);
+            clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), 1));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+
+        // Encode equation (2)
+        std::cout << "Encode equation (2)\n";
+        for (int j = 2; j <= w; j++){
+            for (int s = 1; s <= std::min(j - 1, k); s++)
+            {
+                Clause clause;
+                clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s));
+                clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
+                print_clause(clause);
+                sat_solver->add_clause(clause);
+            }
+        }
+
+        std::cout << "Encode equation (3)\n";
+        // Encode equation (3)
+        for (int j = 2; j <= w; j++){
+            for (int s = 2; s <= std::min(j, k); s++)
+            {
+                Clause clause;
+                clause.push_back(-block_literals[j - 1]);
+                clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
+                clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
+                print_clause(clause);
+                sat_solver->add_clause(clause);
+            }
+        }
+
+        std::cout << "Encode equation (4)\n";
+        // Encode equation (4)
+        for (int j = 2; j <= k && j <= w; ++j)
+        {
+            Clause clause;
+            clause.push_back(block_literals[j - 1]);
+            clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), j));
+            print_clause(clause);
+            sat_solver->add_clause(clause);
+        }
+
+        std::cout << "Encode equation (5)\n";
+        // Encode equation (5)
+        for (int j = 2; j <= w; j++){
+            for (int s = 2; s <= std::min(j, k); s++)
+            {
+                Clause clause;
+                clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
+                clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
+                print_clause(clause);
+                sat_solver->add_clause(clause);
+            }
+        }
+
+        std::cout << "Encode equation (6)\n";
+        // Encode equation (6)
+        for (int j = 2; j <= w; j++){
+            for (int s = 1; s <= std::min(j - 1, k); s++)
+            {
+                Clause clause;
+                clause.push_back(block_literals[j - 1]);
+                clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s));
+                clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
+                print_clause(clause);
+                sat_solver->add_clause(clause);
+            }
+        }
+    }
+
+    // Encode equation (7) 
+    for (int j = k + 1; j <= w; ++j)
+    {
+        Clause clause;
+        clause.push_back(-block_literals[j - 1]);
+        clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), k));
+        print_clause(clause);
+        sat_solver->add_clause(clause);
+    }
+}
+
+void NRPEncoderSCL::connect_blocks(const std::vector<int>& first_block, const std::vector<int>& second_block, int width, int k)
+{
+    std::cout << "c [NRPEncoderSCL] Connecting blocks with width " << width << " and k = " << k << ".\n";
+    print_vector(first_block);
+    std::cout << "\n";
+    print_vector(second_block);
+    std::cout << "\n";
+
+
+    for (int i = 1; i <= (int)second_block.size() && i <= (width - 1); ++i)
+    {
+        auto first_expression = get_first_n_elements(first_block, (int)first_block.size() - i);
+        auto second_expression = get_first_n_elements(second_block, i);
+
+        for (int j = 1; j <= k; j++)
+        {
+            int bound_left = k - j + 1;
+            int bound_right = j;
+            if ((int)first_expression.size() <= bound_left - 1 || (int)second_expression.size() <= bound_right - 1)
+            {
+                continue;
+            }
+            
+            Clause clause;
+            clause.push_back(-get_aux_value(first_expression, bound_left));
+            clause.push_back(-get_aux_value(second_expression, bound_right));
+
+            sat_solver->add_clause(clause);
+            print_clause(clause);
         }
     }
 }
