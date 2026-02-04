@@ -21,7 +21,7 @@ class NRPEncoder
         
         int number_of_nurses;
         int schedule_period;
-        int ***shift_schedule; // shift_schedule[nurse][day][shift]
+        std::vector<std::vector<std::vector<int>>> shift_schedule; // shift_schedule[nurse][day][shift]
 
 
 
