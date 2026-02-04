@@ -117,10 +117,10 @@ bool NRPSolver::encode_and_solve()
     double wall_time = std::chrono::duration<double>(wall_end - wall_start).count();
 
     // Report
-    std::cout << "c ========= NRP SOLVER REPORT =========\n";
-    std::cout << "c Peak memory:     " << *max_consumed_memory << " MB\n";
-    std::cout << "c Wall clock time: " << wall_time << " s\n";
-    std::cout << "c ====================================\n";
+    std::cout << "c [NRPSolver] STATISTICS =========================\n";
+    std::cout << "c [NRPSolver] Peak memory:     " << *max_consumed_memory << " MB\n";
+    std::cout << "c [NRPSolver] Wall clock time: " << wall_time << " s\n";
+    std::cout << "c [NRPSolver] ====================================\n";
 
     if (limit_violated)
         return false;
@@ -169,7 +169,7 @@ void NRPSolver::create_limit_pid()
     }
     else
     {
-        std::cout << "c [Main] Lim pid is forked at " << lim_pid << ".\n";
+        std::cout << "c [NRPSolver] Lim pid is forked at " << lim_pid << ".\n";
     }
 }
 
@@ -193,7 +193,7 @@ void NRPSolver::create_nrp_pid()
     }
     else
     {
-        std::cout << "c [Main] NRP pid is forked at " << nrp_pid << ".\n";
+        std::cout << "c [NRPSolver] NRP pid is forked at " << nrp_pid << ".\n";
     }
 }
 
@@ -223,11 +223,59 @@ int NRPSolver::do_nrp_task()
     nrp_encoder->encode_instance();
     int sat_result = sat_solver->solve();
     if (sat_result == 10)
-        if(!verify_nrp_solution())
+    {
+        std::vector<std::vector<std::vector<bool>>> schedule = sat_solver->extract_result();
+        if(!verify_nrp_solution(schedule))
         {
-            std::cerr << "e [NRPSolver] Encoding is incorrect.\n";
+            std::cerr << "e [NRPSolver] Result is incorrect.\n";
             exit(-1);
         }
+        else
+        {
+            int number_of_nurse = GlobalData::get_number_nurses();
+            int schedule_period = GlobalData::get_schedule_period();
+            std::cout << "r [NRPSolver] RESULT =============================\n";
+            for (int i = 0; i < number_of_nurse; i++)
+            {
+                std::cout << "r [NRPSolver] Schedule for nurse " << i << ":\t";
+                for (int j = 0; j < schedule_period; j++)
+                {
+                    if (schedule[i][j][0])
+                    {
+                        std::cout << "D ";
+                    }
+                    else if (schedule[i][j][1])
+                    {
+                        std::cout << "E "; 
+                    }
+                    else if (schedule[i][j][2])
+                    {
+                        std::cout << "N "; 
+                    }
+                    else if (schedule[i][j][3])
+                    {
+                        std::cout << "O "; 
+                    }
+                    else
+                    {
+                        std::cout << "\ne [NRPSolver] Error occured in schedule reporting...\n";
+                        exit(-1);
+                    }
+                }
+                std::cout << "\n";
+            }
+            std::cout << "r [NRPSolver] ====================================\n";
+        }
+    }
+    else if (sat_result == 20)
+    {
+        std::cout << "r [NRPSolver] No feasible schedule found.\n";
+    }
+    else
+    {
+        std::cout << "e [NRPSolver] Unknown error occured for SAT solver...\n";
+    }
+    
 
     if (nrp_encoder)
     {
@@ -248,11 +296,9 @@ int NRPSolver::do_nrp_task()
     return sat_result;
 }
 
-bool NRPSolver::verify_nrp_solution()
+bool NRPSolver::verify_nrp_solution(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
-    std::cout << "c [NRPSolver] Verifying NRP solution...\n";
-
-    std::vector<std::vector<std::vector<bool>>> schedule = sat_solver->extract_result();
+    std::cout << "c [NRPSolver] RESULT VERIFICATION =============================\n";
 
     if (!verify_at_least_20_work_shifts_every_28_days(schedule))
     {
@@ -325,6 +371,7 @@ bool NRPSolver::verify_nrp_solution()
     }
 
     std::cout << "c [NRPSolver] All verifications passed.\n";
+    std::cout << "c [NRPSolver] =================================================\n";
 
     return true;
 }
@@ -391,9 +438,9 @@ bool NRPSolver::verify_between_1_and_4_night_shifts_every_14_days(const std::vec
         for (int j = 0; j <= schedule_period - 14; ++j)
         {
             int night_shifts_count = 0;
-            for (int d = 0; d < 14; ++d)
+            for (int d = j; d < j + 14; ++d)
             {
-                if (schedule[i][j + d][2]) // Night shift
+                if (schedule[i][d][2]) // Night shift
                     night_shifts_count++;
             }
 
@@ -415,9 +462,9 @@ bool NRPSolver::verify_between_4_and_8_evening_shifts_every_14_days(const std::v
         for (int j = 0; j <= schedule_period - 14; ++j)
         {
             int evening_shift_count = 0;
-            for (int d = 0; d < 14; ++d)
+            for (int d = j; d < j + 14; ++d)
             {
-                if (schedule[i][j + d][1]) // Evening shift
+                if (schedule[i][d][1]) // Evening shift
                     evening_shift_count++;
             }
 
@@ -439,9 +486,9 @@ bool NRPSolver::verify_night_shifts_cannot_appear_on_consecutive_days(const std:
         for (int j = 0; j <= schedule_period - 2; ++j)
         {
             int night_shift_count = 0;
-            for (int d = 0; d < 2 ; ++d)
+            for (int d = j; d < j + 2 ; ++d)
             {
-                if (schedule[i][j + d][2]) // Evening shift
+                if (schedule[i][d][2]) // Evening shift
                     night_shift_count++;
             }
 
@@ -455,11 +502,55 @@ bool NRPSolver::verify_night_shifts_cannot_appear_on_consecutive_days(const std:
 }
 bool NRPSolver::verify_between_2_and_4_evening_or_night_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
-    (void)schedule;
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 7; ++j)
+        {
+            int e_or_n_shifts_count = 0;
+            for (int d = j; d < j + 7 ; ++d)
+            {
+                if (schedule[i][d][1]) // Evening shift
+                    e_or_n_shifts_count++;
+                if (schedule[i][d][2]) // Night shift
+                    e_or_n_shifts_count++;
+            }
+
+            if (e_or_n_shifts_count < 2 || e_or_n_shifts_count > 4)
+            {
+                return false;
+            }
+        }
+    }
     return true;
 }
 bool NRPSolver::verify_at_most_6_work_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
-    (void)schedule;
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 7; ++j)
+        {
+            int work_shift_count = 0;
+            for (int d = j; d < j + 7 ; ++d)
+            {
+                if (schedule[i][d][0]) // Day shift
+                    work_shift_count++;
+                if (schedule[i][d][1]) // Evening shift
+                    work_shift_count++;
+                if (schedule[i][d][2]) // Night shift
+                    work_shift_count++;
+            }
+
+            if (work_shift_count > 6)
+            {
+                return false;
+            }
+        }
+    }
     return true;
 }

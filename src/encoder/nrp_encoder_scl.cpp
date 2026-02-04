@@ -25,7 +25,7 @@ NRPEncoderSCL::NRPEncoderSCL(SATSolver *sat_solver, VarHandler *var_handler) : N
 
 NRPEncoderSCL::~NRPEncoderSCL()
 {
-    std::cout << "c [NRPEncoderSCL] Encoder destroyed.\n";
+    
 }
 
 std::vector<int> NRPEncoderSCL::normalize_expression(const std::vector<int>& elements)
@@ -79,17 +79,16 @@ int NRPEncoderSCL::get_aux_value(const std::vector<int>& values, int sum)
 
 void NRPEncoderSCL::encode_instance()
 {
+    std::cout << "c [NRPEncoderSCL] Start encoding.\n";
     encode_at_most_1_shift_every_day();
     encode_at_least_20_work_shifts_every_28_days();
-    is_print_clause = true;
     encode_at_least_4_off_days_every_14_days();
     encode_between_1_and_4_night_shifts_every_14_days();
     encode_between_4_and_8_evening_shifts_every_14_days();
     encode_night_shifts_cannot_appear_on_consecutive_days();
     encode_between_2_and_4_evening_or_night_shifts_every_7_days();
     encode_at_most_6_work_shifts_every_7_days();
-
-    print_aux_vars();
+    std::cout << "c [NRPEncodeSCL] Finish encoding.\n";
 }
 
 void NRPEncoderSCL::encode_at_most_1_shift_every_day()
@@ -250,19 +249,59 @@ void NRPEncoderSCL::encode_night_shifts_cannot_appear_on_consecutive_days()
 void NRPEncoderSCL::encode_between_2_and_4_evening_or_night_shifts_every_7_days()
 {
     // Implementation goes here
+    // At most 5 day shifts or day offs every 7 days -> At least 2 evening or night shifts every 7 days
+    std::vector<std::vector<int>> day_shift_or_off_day(number_of_nurses, std::vector<int>(schedule_period * 2, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            day_shift_or_off_day[i][2 * j] = shift_schedule[i][j][0]; // Day shift
+            day_shift_or_off_day[i][2 * j + 1] = shift_schedule[i][j][3]; // Off day
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(day_shift_or_off_day[i], 14, 5);
+    }
+
+    // At most 4 eveing or night shifts every 7 days
+    std::vector<std::vector<int>> e_or_n_shift(number_of_nurses, std::vector<int>(schedule_period * 2, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            e_or_n_shift[i][2 * j] = shift_schedule[i][j][1]; // Evening shift
+            e_or_n_shift[i][2 * j + 1] = shift_schedule[i][j][2]; // Night shift
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        encode_ladder_amk_constraint(e_or_n_shift[i], 14, 4);
+    }
 }
 
 void NRPEncoderSCL::encode_at_most_6_work_shifts_every_7_days()
 {
     // Implementation goes here
+    std::vector<std::vector<int>> not_off_day(number_of_nurses, std::vector<int>(schedule_period, 0));
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j < schedule_period; ++j)
+        {
+            not_off_day[i][j] = -shift_schedule[i][j][3]; // Not off day
+        }
+    }
+
+    for (int i = 0; i < number_of_nurses; ++i) 
+    {
+        encode_ladder_amk_constraint(not_off_day[i], 7, 6);
+    }
 }
 
 void NRPEncoderSCL::encode_ladder_amk_constraint(const std::vector<int>& ladder_literals, int width, int k)
 {
-    std::cout << "c [NRPEncoderSCL] Encoding ladder AMK constraint with width " << width << " and k = " << k << ".\n";
-    print_vector(ladder_literals);
-    std::cout << "\n";
-
     std::vector<std::vector<int>> windows = split_windows(ladder_literals, width);
 
     for (int i = 0; i < (int)windows.size(); ++i)
@@ -332,10 +371,6 @@ void NRPEncoderSCL::encode_window(const std::vector<int>& window_literals, int w
 
 void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals, int width, int k)
 {
-    std::cout << "c [NRPEncoderSCL] Encoding Connect block with width " << width << " and k = " << k << ".\n";
-    print_vector(block_literals);
-    std::cout << "\n";
-
     int w = (int)block_literals.size();
 
     if (w != width)
@@ -418,11 +453,7 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
 }
 
 void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int width, int k)
-{    
-    std::cout << "c [NRPEncoderSCL] Encoding AMK block with width " << width << " and k = " << k << ".\n";
-    print_vector(block_literals);
-    std::cout << "\n";
-
+{ 
     int w = (int)block_literals.size();
 
     if (w == width)
@@ -516,13 +547,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
 
 void NRPEncoderSCL::connect_blocks(const std::vector<int>& first_block, const std::vector<int>& second_block, int width, int k)
 {
-    std::cout << "c [NRPEncoderSCL] Connecting blocks with width " << width << " and k = " << k << ".\n";
-    print_vector(first_block);
-    std::cout << "\n";
-    print_vector(second_block);
-    std::cout << "\n";
-
-
     for (int i = 1; i <= (int)second_block.size() && i <= (width - 1); ++i)
     {
         auto first_expression = get_first_n_elements(first_block, (int)first_block.size() - i);

@@ -19,7 +19,7 @@ SATSolverCadical::~SATSolverCadical()
         delete solver;
         solver = nullptr;
     }
-    std::cout << "c [SATSolverCaDiCaL] CaDiCaL solver destroyed.\n";
+    std::cout << "c [SATSolverCaDiCaL] Total clauses used:: " << get_clause_count() << "\n";
 }
 
 void SATSolverCadical::add_clause(const Clause &c)

@@ -12,7 +12,7 @@ VarHandler::VarHandler(int start_id) : start_id(start_id)
 
 VarHandler::~VarHandler()
 {
-    std::cout << "c [VarHandler] Variable handler destroyed. Total variables used: " << count() << ".\n";  
+    std::cout << "c [VarHandler] Total variables used: " << count() << ".\n";  
 };
 
 int VarHandler::peek_next_var()

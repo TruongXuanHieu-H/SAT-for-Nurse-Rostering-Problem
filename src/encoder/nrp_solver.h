@@ -52,7 +52,7 @@ private:
     int do_nrp_task();
 
 
-    bool verify_nrp_solution();
+    bool verify_nrp_solution(const std::vector<std::vector<std::vector<bool>>>& schedule);
     bool verify_at_least_20_work_shifts_every_28_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
     bool verify_at_least_4_off_days_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
     bool verify_between_1_and_4_night_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
