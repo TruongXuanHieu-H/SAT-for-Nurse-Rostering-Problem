@@ -21,10 +21,13 @@ class NRPEncoder
 
 
             // Init shift schedule variables
+            shift_schedule.resize(number_of_nurses);
             for (int i = 0; i < number_of_nurses; ++i)
             {
+                shift_schedule[i].resize(schedule_period);
                 for (int j = 0; j < schedule_period; ++j)
                 {
+                    shift_schedule[i][j].resize(4);
                     for (int k = 0; k < 4; ++k)
                     {
                         shift_schedule[i][j][k] = var_handler->pop_next_var(); 
