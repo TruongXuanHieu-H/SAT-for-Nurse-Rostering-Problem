@@ -375,7 +375,6 @@ bool NRPSolver::verify_nrp_solution(const std::vector<std::vector<std::vector<bo
 
     return true;
 }
-
 bool NRPSolver::verify_at_least_20_work_shifts_every_28_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
     int number_of_nurses = GlobalData::get_number_nurses();
@@ -399,7 +398,6 @@ bool NRPSolver::verify_at_least_20_work_shifts_every_28_days(const std::vector<s
     }
     return true;
 }
-
 bool NRPSolver::verify_at_least_4_off_days_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
     int number_of_nurses = GlobalData::get_number_nurses();
@@ -427,7 +425,6 @@ bool NRPSolver::verify_at_least_4_off_days_every_14_days(const std::vector<std::
     }
     return true;
 }
-
 bool NRPSolver::verify_between_1_and_4_night_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
 {
     int number_of_nurses = GlobalData::get_number_nurses();

@@ -65,25 +65,6 @@ class NRPEncoderSCL : public NRPEncoder
                 std::cout << key << " -> " << value << "\n";
             }
         }
-
-        void print_vector(const std::vector<int>& vec)
-        {
-            for (const auto& val : vec)
-            {
-                std::cout << val << " ";
-            }
-        }
-
-        bool is_print_clause = false;
-        void print_clause(const Clause& clause)
-        {
-            (void)clause;
-            if (!is_print_clause)
-                return;
-
-            print_vector(clause);
-            std::cout << "0\n";
-        }
 };
 
 #endif // NRP_ENCODER_SCL_H

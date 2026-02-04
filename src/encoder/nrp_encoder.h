@@ -22,6 +22,27 @@ class NRPEncoder
         int number_of_nurses;
         int schedule_period;
         int ***shift_schedule; // shift_schedule[nurse][day][shift]
+
+
+
+        void print_vector(const std::vector<int>& vec)
+        {
+            for (const auto& val : vec)
+            {
+                std::cout << val << " ";
+            }
+        }
+
+        bool is_print_clause = false;
+        void print_clause(const Clause& clause)
+        {
+            (void)clause;
+            if (!is_print_clause)
+                return;
+
+            print_vector(clause);
+            std::cout << "0\n";
+        }
 };
 
 #endif // NRP_ENCODER_H
