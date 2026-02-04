@@ -11,7 +11,17 @@ class NRPEncoder
     public:
 
         virtual ~NRPEncoder() {};
-        virtual void encode_instance() = 0;
+        virtual void encode_instance() final
+        {
+            encode_at_most_1_shift_every_day();
+            encode_at_least_20_work_shifts_every_28_days();
+            encode_at_least_4_off_days_every_14_days();
+            encode_between_1_and_4_night_shifts_every_14_days();
+            encode_between_4_and_8_evening_shifts_every_14_days();
+            encode_night_shifts_cannot_appear_on_consecutive_days();
+            encode_between_2_and_4_evening_or_night_shifts_every_7_days();
+            encode_at_most_6_work_shifts_every_7_days();
+        }
 
     protected:
         NRPEncoder(SATSolver *sat_solver, VarHandler *var_handler) : sat_solver(sat_solver), var_handler(var_handler) 

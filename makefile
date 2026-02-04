@@ -32,6 +32,7 @@ INCLUDES := -I$(CADICAL_INC)
 # Source files
 # ================================
 SOURCES := \
+	encoder/nrp_encoder_bdd.cpp \
 	encoder/nrp_encoder_scl.cpp \
 	encoder/sat_solver_cadical.cpp \
 	encoder/sat_solver.cpp \

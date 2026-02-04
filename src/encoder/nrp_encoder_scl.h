@@ -9,10 +9,7 @@ class NRPEncoderSCL : public NRPEncoder
     public:
         NRPEncoderSCL(SATSolver *sat_solver, VarHandler *var_handler);
         ~NRPEncoderSCL();
-
-        void encode_instance() override;
-
-
+        
     protected:
         void encode_at_least_20_work_shifts_every_28_days() override;
         void encode_at_least_4_off_days_every_14_days() override;

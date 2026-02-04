@@ -77,20 +77,6 @@ int NRPEncoderSCL::get_aux_value(const std::vector<int>& values, int sum)
     return get_aux_value(key);
 }
 
-void NRPEncoderSCL::encode_instance()
-{
-    std::cout << "c [NRPEncoderSCL] Start encoding.\n";
-    encode_at_most_1_shift_every_day();
-    encode_at_least_20_work_shifts_every_28_days();
-    encode_at_least_4_off_days_every_14_days();
-    encode_between_1_and_4_night_shifts_every_14_days();
-    encode_between_4_and_8_evening_shifts_every_14_days();
-    encode_night_shifts_cannot_appear_on_consecutive_days();
-    encode_between_2_and_4_evening_or_night_shifts_every_7_days();
-    encode_at_most_6_work_shifts_every_7_days();
-    std::cout << "c [NRPEncodeSCL] Finish encoding.\n";
-}
-
 void NRPEncoderSCL::encode_at_least_20_work_shifts_every_28_days()
 {
     // At most 8 off days every 28 days -> at least 20 work shifts every 28 days
