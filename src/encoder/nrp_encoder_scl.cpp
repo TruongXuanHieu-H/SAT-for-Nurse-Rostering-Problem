@@ -91,33 +91,6 @@ void NRPEncoderSCL::encode_instance()
     std::cout << "c [NRPEncodeSCL] Finish encoding.\n";
 }
 
-void NRPEncoderSCL::encode_at_most_1_shift_every_day()
-{
-    for (int i = 0; i < number_of_nurses; ++i)
-    {
-        for (int j = 0; j < schedule_period; ++j)
-        {
-            for (int k1 = 0; k1 < 4; ++k1)
-            {
-                for (int k2 = k1 + 1; k2 < 4; ++k2)
-                {
-                    Clause amo;
-                    amo.push_back(-shift_schedule[i][j][k1]);
-                    amo.push_back(-shift_schedule[i][j][k2]);
-                    sat_solver->add_clause(amo);
-                }
-            }
-
-            Clause alo;
-            alo.push_back(shift_schedule[i][j][0]); // Day
-            alo.push_back(shift_schedule[i][j][1]); // Evening
-            alo.push_back(shift_schedule[i][j][2]); // Night
-            alo.push_back(shift_schedule[i][j][3]); // Off
-            sat_solver->add_clause(alo);
-        }
-    }
-}
-
 void NRPEncoderSCL::encode_at_least_20_work_shifts_every_28_days()
 {
     // At most 8 off days every 28 days -> at least 20 work shifts every 28 days
