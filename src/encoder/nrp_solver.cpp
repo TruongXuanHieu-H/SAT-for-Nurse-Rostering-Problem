@@ -1,7 +1,8 @@
 #include "nrp_solver.h"
-#include "nrp_encoder_scl.h"
 #include "nrp_encoder_bdd.h"
 #include "nrp_encoder_card.h"
+#include "nrp_encoder_scl.h"
+#include "nrp_encoder_seq.h"
 #include "../utils/pid_manager.h"
 #include "../global_data.h"
 #include "sat_solver_cadical.h"
@@ -218,12 +219,12 @@ int NRPSolver::do_nrp_task()
             nrp_encoder = new NRPEncoderSCL(sat_solver, var_handler);
             break;
         case EncodeType::Seq:
+            nrp_encoder = new NRPEncoderSeq(sat_solver, var_handler);
             break;
         default:
             std::cerr << "e [NRPSolver] Unsupported encoding type.\n";
             return -1;
     }
-
     nrp_encoder->encode_instance();
     int sat_result = sat_solver->solve();
     if (sat_result == 10)
