@@ -19,13 +19,25 @@ SATSolverCadical::~SATSolverCadical()
         delete solver;
         solver = nullptr;
     }
-    std::cout << "c [SATSolverCaDiCaL] Total clauses used:: " << get_clause_count() << "\n";
+    std::cout << "c [SATSolverCaDiCaL] Total clauses used: " << get_clause_count() << "\n";
+    std::cout << "c [SATSolverCaDiCal] Duplicate clauses found: " << get_duplicate_clause_count() << "\n";
 }
 
 void SATSolverCadical::add_clause(const Clause &c)
 {
-    clauses.push_back(c);
-    for (const auto &lit : c)
+    Clause normalized = c;
+    std::sort(normalized.begin(), normalized.end());
+
+    auto [it, inserted] = clause_store.insert(normalized);
+    if (!inserted)
+    {
+        duplicate_claus_count++;
+        return;
+    }
+
+    clauses.push_back(normalized);
+
+    for (const auto &lit : normalized)
     {
         solver->add(lit);
     }
