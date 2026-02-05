@@ -22,4 +22,4 @@ class NRPEncoderBDD : public NRPEncoder
         void update_var_handler(const Clause& clause);
 };
 
-#endif // NRP_ENCODER_SCL_H
+#endif // NRP_ENCODER_BDD_H

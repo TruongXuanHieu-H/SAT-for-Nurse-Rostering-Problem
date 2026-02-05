@@ -47,8 +47,6 @@ void NRPEncoderBDD::encode_at_least_20_work_shifts_every_28_days()
 
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
@@ -85,8 +83,6 @@ void NRPEncoderBDD::encode_at_least_4_off_days_every_14_days()
 
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
@@ -139,8 +135,6 @@ void NRPEncoderBDD::encode_between_1_and_4_night_shifts_every_14_days()
     // At most 4 night shifts every 14 days
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
@@ -177,8 +171,6 @@ void NRPEncoderBDD::encode_between_4_and_8_evening_shifts_every_14_days()
 
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
@@ -260,8 +252,6 @@ void NRPEncoderBDD::encode_between_2_and_4_evening_or_night_shifts_every_7_days(
 
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
@@ -318,8 +308,6 @@ void NRPEncoderBDD::encode_at_most_6_work_shifts_every_7_days()
 
     PBConfig config = std::make_shared<PBConfigClass>();
     config->amk_encoder = AMK_ENCODER::BDD;
-    config->pb_encoder = PB_ENCODER::BDD;
-    config->amo_encoder = AMO_ENCODER::BDD;
     PB2CNF* pb2cnf = new PB2CNF(config);
 
     for (int i = 0; i < number_of_nurses; ++i)
