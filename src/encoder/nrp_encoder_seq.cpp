@@ -1,10 +1,6 @@
 #include "nrp_encoder_seq.h"
 
 #include <iostream>
-#include <pblib/pb2cnf.h>
-#include <pblib/PBConfig.h>
-#include <memory>
-
 NRPEncoderSeq::NRPEncoderSeq(SATSolver *sat_solver, VarHandler *var_handler) : NRPEncoder(sat_solver, var_handler)
 {
     std::cout << "c [NRPEncoderSeq] Encoder initialized for " << number_of_nurses << " nurses over " << schedule_period << " days.\n";
