@@ -29,3 +29,11 @@ int VarHandler::count()
 {
     return next_var - start_id;
 };
+
+void VarHandler::set_next_var(int next)
+{
+    if (next > next_var)
+        next_var = next;
+    else
+        exit(-1);
+}

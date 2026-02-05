@@ -17,6 +17,9 @@ class NRPEncoderBDD : public NRPEncoder
         void encode_night_shifts_cannot_appear_on_consecutive_days() override;
         void encode_between_2_and_4_evening_or_night_shifts_every_7_days() override;
         void encode_at_most_6_work_shifts_every_7_days() override;
+
+        void update_var_handler(const Clauses& clauses);
+        void update_var_handler(const Clause& clause);
 };
 
 #endif // NRP_ENCODER_SCL_H

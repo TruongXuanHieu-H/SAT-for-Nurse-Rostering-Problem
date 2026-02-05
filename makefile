@@ -26,7 +26,14 @@ CADICAL_INC     := ./solver/cadical
 CADICAL_LIB_DIR := ./solver/cadical
 CADICAL_LIB     := -lcadical
 
-INCLUDES := -I$(CADICAL_INC)
+# ================================
+# PBLib
+# ================================
+PBLIB_INC   := /usr/local/include
+PBLIB_LIB_DIR := /usr/local/lib
+PBLIB_LIB   := -lpb
+
+INCLUDES := -I$(CADICAL_INC) -I$(PBLIB_INC)
 
 # ================================
 # Source files
@@ -61,7 +68,7 @@ all: $(TARGET)
 # ================================
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) $^ -L$(CADICAL_LIB_DIR) $(CADICAL_LIB) -o $@
+	$(CXX) $(CXXFLAGS) $^ -L$(CADICAL_LIB_DIR) $(CADICAL_LIB) -L$(PBLIB_LIB_DIR) $(PBLIB_LIB) -o $@
 
 # ================================
 # Compile rules

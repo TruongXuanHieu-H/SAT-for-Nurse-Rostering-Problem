@@ -10,6 +10,8 @@ public:
     int pop_next_var();         // Get the next variable ID and increment counter
     int count();                // Get the total number of variables used
 
+    void set_next_var(int next); // Set the next variable
+
 private:
     int start_id;
     int next_var;
