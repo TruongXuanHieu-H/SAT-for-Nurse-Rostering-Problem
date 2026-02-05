@@ -1,6 +1,7 @@
 #include "nrp_solver.h"
 #include "nrp_encoder_scl.h"
 #include "nrp_encoder_bdd.h"
+#include "nrp_encoder_card.h"
 #include "../utils/pid_manager.h"
 #include "../global_data.h"
 #include "sat_solver_cadical.h"
@@ -209,6 +210,7 @@ int NRPSolver::do_nrp_task()
             nrp_encoder = new NRPEncoderBDD(sat_solver, var_handler);
             break;
         case EncodeType::Card:
+            nrp_encoder = new NRPEncoderCard(sat_solver, var_handler);
             break;
         case EncodeType::Pairwise:
             break;
