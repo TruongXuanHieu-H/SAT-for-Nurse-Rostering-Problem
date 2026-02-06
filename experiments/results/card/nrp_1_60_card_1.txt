@@ -1,0 +1,37 @@
+c [Version] Nurse Rostering Encoder version 1.0.0.
+c [Config] Number of nurses is set to 1.
+c [Config] Schedule period is set to 60.
+c [Config] Encoding type is set to Card.
+c [Config] Memory limit is set to 5000.
+c [Config] Real time limit is set to 600.
+c [NRPSolver] Lim pid is forked at 4131.
+c [NRPSolver] Start task in PID: 4132.
+c [VarHandler] Variable handler initialized. Starting variable ID: 1.
+c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
+c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
+c [NRPEncoderCard] Encoder initialized for 1 nurses over 60 days.
+c [NRPSolver] RESULT VERIFICATION =============================
+c [NRPSolver] Verification passed: at least 20 work shifts every 28 days.
+c [NRPSolver] Verification passed: at least 4 off days every 14 days.
+c [NRPSolver] Verification passed: between 1 and 4 night shifts every 14 days.
+c [NRPSolver] Verification passed: between 4 and 8 evening shifts every 14 days.
+c [NRPSolver] Verification passed: night shifts cannot appear on consecutive days.
+c [NRPSolver] Verification passed: between 2 and 4 evening or night shifts every 7 days.
+c [NRPSolver] Verification passed: at most 6 work shifts every 7 days.
+c [NRPSolver] All verifications passed.
+c [NRPSolver] =================================================
+r [NRPSolver] RESULT =============================
+r [NRPSolver] Schedule for nurse 0:	D D D D N O N E E O O E O E D D D E D O N E E O O E O E N E D D N O N E D O O E O E D E D D D O N E D O O E O E D E D D 
+r [NRPSolver] ====================================
+c [SATSolverCaDiCaL] Total clauses used: 38124
+c [SATSolverCaDiCal] Duplicate clauses found: 0
+c [VarHandler] Total variables used: 20153.
+c [Lim] Start task in PID: 4131.
+c [Signal] Signal interruption. Caught signal: SIGTERM (15).
+c [NRPSolver] Lim pid is forked at 4131.
+c [NRPSolver] NRP pid is forked at 4132.
+c [NRPSolver] Solver finished. Killing Lim.
+c [NRPSolver] STATISTICS =========================
+c [NRPSolver] Peak memory:     21.4 MB
+c [NRPSolver] Wall clock time: 0.254633 s
+c [NRPSolver] ====================================

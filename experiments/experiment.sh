@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIMIT_MEMORY=1000
+LIMIT_MEMORY=5000
 LIMIT_REAL_TIME=600
 
 mkdir -p results/{pairwise,bdd,card,scl,seq}

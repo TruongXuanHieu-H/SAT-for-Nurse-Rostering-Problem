@@ -1,0 +1,21 @@
+c [Version] Nurse Rostering Encoder version 1.0.0.
+c [Config] Number of nurses is set to 1.
+c [Config] Schedule period is set to 60.
+c [Config] Encoding type is set to Pairwise.
+c [Config] Memory limit is set to 5000.
+c [Config] Real time limit is set to 600.
+c [Lim] Start task in PID: 6314.
+c [NRPSolver] Lim pid is forked at 6314.
+c [NRPSolver] Start task in PID: 6315.
+c [VarHandler] Variable handler initialized. Starting variable ID: 1.
+c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
+c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
+c [NRPEncoderPairwise] Encoder initialized for 1 nurses over 60 days.
+c [Signal] Signal interruption. Caught signal: SIGTERM (15).
+c [NRPSolver] Lim pid is forked at 6314.
+c [NRPSolver] NRP pid is forked at 6315.
+c [Lim] Limit violated. Killing NRP.
+c [NRPSolver] STATISTICS =========================
+c [NRPSolver] Peak memory:     5004.5 MB
+c [NRPSolver] Wall clock time: 61.6319 s
+c [NRPSolver] ====================================
