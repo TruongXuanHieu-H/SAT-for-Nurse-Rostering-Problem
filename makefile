@@ -41,6 +41,7 @@ INCLUDES := -I$(CADICAL_INC) -I$(PBLIB_INC)
 SOURCES := \
 	encoder/nrp_encoder_bdd.cpp \
 	encoder/nrp_encoder_card.cpp \
+	encoder/nrp_encoder_pairwise.cpp \
 	encoder/nrp_encoder_scl.cpp \
 	encoder/nrp_encoder_seq.cpp \
 	encoder/sat_solver_cadical.cpp \
