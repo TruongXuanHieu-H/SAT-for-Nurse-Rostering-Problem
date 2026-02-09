@@ -1,0 +1,41 @@
+
+<<< setup
+
+
+<<< generate
+
+ ! --------------------------------------------------- CP Optimizer 22.1.1.0 --
+ ! Satisfiability problem - 40 variables, 296 constraints
+ ! Presolve      : 81 extractables eliminated, 27 constraints generated
+ ! ParallelMode         = 1
+ ! Workers              = 8
+ ! Initial process time : 0.02s (0.02s extraction + 0.00s propagation)
+ !  . Log search space  : 80.0 (before), 80.0 (after)
+ !  . Memory usage      : 528.6 kB (before), 528.6 kB (after)
+ ! Using parallel search with 8 workers.
+ ! ----------------------------------------------------------------------------
+ !               Branches  Non-fixed    W       Branch decision
+ *                    257  0.04s        5         0  = x(1)(8)
+ ! ----------------------------------------------------------------------------
+ ! Search completed, 1 solution found.
+ ! ----------------------------------------------------------------------------
+ ! Number of branches     : 7068
+ ! Number of fails        : 3240
+ ! Total memory usage     : 9.3 MB (8.8 MB CP Optimizer + 0.4 MB Concert)
+ ! Time spent in solve    : 0.04s (0.02s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 353400.0
+ ! ----------------------------------------------------------------------------
+
+<<< solve
+
+
+
+OBJECTIVE: no objective
+===== SCHEDULE =====
+Nurse 1: 1 0 3 2 1 3 3 0 0 3 1 1 1 0 2 0 3 1 1 3 3 1 1 3 0 0 2 0 0 2 3 1 1 3 3 1 1 3 0 1 
+
+<<< post process
+
+
+<<< done
+
