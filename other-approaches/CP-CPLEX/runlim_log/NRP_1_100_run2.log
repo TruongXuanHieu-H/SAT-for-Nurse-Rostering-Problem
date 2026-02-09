@@ -5,13 +5,13 @@
 [runlim] argv[0]:		oplrun
 [runlim] argv[1]:		model/NRP.mod
 [runlim] argv[2]:		data/NRP_1_100.input
-[runlim] start:			Mon Feb  9 15:35:39 2026
-[runlim] main pid:		35235
-[runlim] end:			Mon Feb  9 15:35:39 2026
+[runlim] start:			Mon Feb  9 15:39:14 2026
+[runlim] main pid:		36192
+[runlim] end:			Mon Feb  9 15:39:14 2026
 [runlim] status:		ok
 [runlim] result:		0
 [runlim] children:		0
-[runlim] real:			0.66 seconds
+[runlim] real:			0.27 seconds
 [runlim] time:			0.33 seconds
-[runlim] space:			0.0 MB
+[runlim] space:			45.2 MB
 [runlim] samples:		1
