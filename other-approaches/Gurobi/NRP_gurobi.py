@@ -92,9 +92,9 @@ def print_specifications():
     print("------------------Specifications------------------")
     processing_time = end_processing_time - start_processing_time
     optimization_time = end_optimizing_time - start_optimizing_time
-    print(f"Processing Time     : {processing_time:.2f} seconds")
-    print(f"Optimization Time   : {optimization_time:.2f} seconds")
-    print(f"Total Time          : {processing_time + optimization_time:.2f} seconds")
+    print(f"Processing Time     : {processing_time:.3f} seconds")
+    print(f"Optimization Time   : {optimization_time:.3f} seconds")
+    print(f"Total Time          : {processing_time + optimization_time:.3f} seconds")
     print(f"Memory Usaged       : {mem_after - mem_before:.2f} MB")
 
 def verify_solution(x, NURSES, DAYS, WORK_SHIFTS):

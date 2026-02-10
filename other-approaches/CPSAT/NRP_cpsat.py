@@ -130,9 +130,9 @@ mem_after = process.memory_info().rss / (1024 * 1024)
 # ===============================
 print("------------------CP-SAT Stats------------------")
 print(f"Status             : {solver.StatusName(status)}")
-print(f"Processing Time    : {end_processing_time - start_processing_time:.2f}s")
-print(f"Solving Time       : {end_optimizing_time - start_optimizing_time:.2f}s")
-print(f"Total Time         : {(end_optimizing_time - start_processing_time):.2f}s")
+print(f"Processing Time    : {end_processing_time - start_processing_time:.3f}s")
+print(f"Solving Time       : {end_optimizing_time - start_optimizing_time:.3f}s")
+print(f"Total Time         : {(end_optimizing_time - start_processing_time):.3f}s")
 print(f"Memory Used        : {mem_after - mem_before:.2f} MB")
 
 def verify_solution_cp_sat(x, solver, NURSES, DAYS, WORK_SHIFTS, SHIFTS):
