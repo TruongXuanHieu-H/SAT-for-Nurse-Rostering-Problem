@@ -19,11 +19,11 @@
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
- ! Number of branches     : 6730
- ! Number of fails        : 3076
+ ! Number of branches     : 6893
+ ! Number of fails        : 3147
  ! Total memory usage     : 9.3 MB (8.8 MB CP Optimizer + 0.4 MB Concert)
  ! Time spent in solve    : 0.04s (0.03s engine + 0.02s extraction)
- ! Search speed (br. / s) : 224333.4
+ ! Search speed (br. / s) : 229766.7
  ! ----------------------------------------------------------------------------
 
 <<< solve

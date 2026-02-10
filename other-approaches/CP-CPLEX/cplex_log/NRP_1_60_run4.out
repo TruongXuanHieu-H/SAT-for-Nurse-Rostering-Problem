@@ -15,15 +15,15 @@
  ! Using parallel search with 8 workers.
  ! ----------------------------------------------------------------------------
  !               Branches  Non-fixed    W       Branch decision
- *                    452  0.06s        8         0  = x(1)(60)
+ *                    452  0.04s        8         0  = x(1)(60)
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
- ! Number of branches     : 9357
- ! Number of fails        : 4231
+ ! Number of branches     : 9224
+ ! Number of fails        : 4180
  ! Total memory usage     : 12.5 MB (12.1 MB CP Optimizer + 0.4 MB Concert)
  ! Time spent in solve    : 0.06s (0.04s engine + 0.02s extraction)
- ! Search speed (br. / s) : 233925.0
+ ! Search speed (br. / s) : 307466.7
  ! ----------------------------------------------------------------------------
 
 <<< solve

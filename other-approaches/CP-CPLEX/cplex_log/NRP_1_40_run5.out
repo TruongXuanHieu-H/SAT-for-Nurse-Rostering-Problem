@@ -22,8 +22,8 @@
  ! Number of branches     : 6286
  ! Number of fails        : 2868
  ! Total memory usage     : 9.3 MB (8.8 MB CP Optimizer + 0.4 MB Concert)
- ! Time spent in solve    : 0.04s (0.03s engine + 0.02s extraction)
- ! Search speed (br. / s) : 209533.4
+ ! Time spent in solve    : 0.04s (0.02s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 314300.0
  ! ----------------------------------------------------------------------------
 
 <<< solve

@@ -9,21 +9,21 @@
  ! Presolve      : 81 extractables eliminated, 27 constraints generated
  ! ParallelMode         = 1
  ! Workers              = 8
- ! Initial process time : 0.01s (0.01s extraction + 0.00s propagation)
+ ! Initial process time : 0.02s (0.02s extraction + 0.00s propagation)
  !  . Log search space  : 80.0 (before), 80.0 (after)
  !  . Memory usage      : 528.6 kB (before), 528.6 kB (after)
  ! Using parallel search with 8 workers.
  ! ----------------------------------------------------------------------------
  !               Branches  Non-fixed    W       Branch decision
- *                    257  0.04s        5         0  = x(1)(8)
+ *                    600  0.04s        1         0  = x(1)(4)
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
- ! Number of branches     : 6286
- ! Number of fails        : 2868
+ ! Number of branches     : 6771
+ ! Number of fails        : 3104
  ! Total memory usage     : 9.3 MB (8.8 MB CP Optimizer + 0.4 MB Concert)
- ! Time spent in solve    : 0.04s (0.03s engine + 0.01s extraction)
- ! Search speed (br. / s) : 314299.9
+ ! Time spent in solve    : 0.04s (0.03s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 225700.0
  ! ----------------------------------------------------------------------------
 
 <<< solve
