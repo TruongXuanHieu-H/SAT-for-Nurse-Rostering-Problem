@@ -179,11 +179,11 @@ def print_solution(x, NURSES, DAYS, WORK_SHIFTS):
             schedule += shift.__str__() + " "
         print(schedule.strip())
 
-# print_specifications()
+print_specifications()
 
 if model.status == GRB.INFEASIBLE:
     print("Model is infeasible.")
 else:
-    # verify_solution(x, NURSES, DAYS, WORK_SHIFTS)
+    verify_solution(x, NURSES, DAYS, WORK_SHIFTS)
     print_solution(x, NURSES, DAYS, WORK_SHIFTS)
 
