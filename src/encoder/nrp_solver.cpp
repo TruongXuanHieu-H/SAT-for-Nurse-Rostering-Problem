@@ -232,6 +232,13 @@ int NRPSolver::do_nrp_task()
     if (sat_result == 10)
     {
         std::vector<std::vector<std::vector<bool>>> schedule = sat_solver->extract_result();
+
+        if(GlobalData::get_enable_solution_verification() && !verify_nrp_solution(schedule))
+        {
+            std::cerr << "e [NRPSolver] Result is incorrect.\n";
+            exit(-1);
+        }
+
         int number_of_nurse = GlobalData::get_number_nurses();
         int schedule_period = GlobalData::get_schedule_period();
         std::cout << "r [NRPSolver] RESULT =============================\n";
@@ -293,4 +300,260 @@ int NRPSolver::do_nrp_task()
     }
 
     return sat_result;
+}
+
+bool NRPSolver::verify_nrp_solution(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    std::cout << "c [NRPSolver] RESULT VERIFICATION =============================\n";
+
+    if (!verify_at_least_20_work_shifts_every_28_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: at least 20 work shifts every 28 days.\n";
+        return false;
+    }
+    else
+    {
+        std::cout << "c [NRPSolver] Verification passed: at least 20 work shifts every 28 days.\n";
+    }
+
+    if (!verify_at_least_4_off_days_every_14_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: at least 4 off days every 14 days.\n";
+        return false;
+    }
+    else
+    {
+        std::cout << "c [NRPSolver] Verification passed: at least 4 off days every 14 days.\n";
+    }
+
+    if (!verify_between_1_and_4_night_shifts_every_14_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: between 1 and 4 night shifts every 14 days.\n";
+        return false;
+    }
+    else 
+    {
+        std::cout << "c [NRPSolver] Verification passed: between 1 and 4 night shifts every 14 days.\n";
+    }
+
+    if (!verify_between_4_and_8_evening_shifts_every_14_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: between 4 and 8 evening shifts every 14 days.\n";
+        return false;
+    }
+    else 
+    {
+        std::cout << "c [NRPSolver] Verification passed: between 4 and 8 evening shifts every 14 days.\n";
+    }
+
+    if (!verify_night_shifts_cannot_appear_on_consecutive_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: night shifts cannot appear on consecutive days.\n";
+        return false;
+    }
+    else
+    {
+        std::cout << "c [NRPSolver] Verification passed: night shifts cannot appear on consecutive days.\n";
+    }
+
+    if (!verify_between_2_and_4_evening_or_night_shifts_every_7_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: between 2 and 4 evening or night shifts every 7 days.\n";
+        return false;
+    }
+    else
+    {
+        std::cout << "c [NRPSolver] Verification passed: between 2 and 4 evening or night shifts every 7 days.\n";
+    }
+
+    if (!verify_at_most_6_work_shifts_every_7_days(schedule))
+    {
+        std::cerr << "e [NRPSolver] Verification failed: at most 6 work shifts every 7 days.\n";
+        return false;
+    }
+    else
+    {
+        std::cout << "c [NRPSolver] Verification passed: at most 6 work shifts every 7 days.\n";
+    }
+
+    std::cout << "c [NRPSolver] All verifications passed.\n";
+    std::cout << "c [NRPSolver] =================================================\n";
+
+    return true;
+}
+bool NRPSolver::verify_at_least_20_work_shifts_every_28_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j <= schedule_period - 28; ++j)
+        {
+            int work_shift_count = 0;
+            for (int d = j; d < j + 28; ++d)
+            {
+                if (schedule[i][d][0] || schedule[i][d][1] || schedule[i][d][2]) // Day, Evening, Night
+                    work_shift_count++;
+            }
+            if (work_shift_count < 20)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_at_least_4_off_days_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; ++i)
+    {
+        for (int j = 0; j <= schedule_period - 14; ++j)
+        {
+            int off_day_count_by_work_shifts = 0;
+            int off_day_count_by_off_shifts = 0;
+            for (int d = j; d < j + 14; ++d)
+            {
+                if (!schedule[i][d][0] && !schedule[i][d][1] && !schedule[i][d][2]) // No shift on this day
+                    off_day_count_by_work_shifts++;
+                if (schedule[i][d][3]) // Off shift
+                    off_day_count_by_off_shifts++;
+            }
+            if (off_day_count_by_work_shifts < 4 || off_day_count_by_off_shifts < 4)
+            {
+                // std::cout << "Debug: Nurse " << i << ", Days " << j << " to " << (j + 13) << ": off_day_count_by_work_shifts = " << off_day_count_by_work_shifts << ", off_day_count_by_off_shifts = " << off_day_count_by_off_shifts << "\n";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_between_1_and_4_night_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 14; ++j)
+        {
+            int night_shifts_count = 0;
+            for (int d = j; d < j + 14; ++d)
+            {
+                if (schedule[i][d][2]) // Night shift
+                    night_shifts_count++;
+            }
+
+            if (night_shifts_count < 1 || night_shifts_count > 4)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_between_4_and_8_evening_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 14; ++j)
+        {
+            int evening_shift_count = 0;
+            for (int d = j; d < j + 14; ++d)
+            {
+                if (schedule[i][d][1]) // Evening shift
+                    evening_shift_count++;
+            }
+
+            if (evening_shift_count < 4 || evening_shift_count > 8)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_night_shifts_cannot_appear_on_consecutive_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 2; ++j)
+        {
+            int night_shift_count = 0;
+            for (int d = j; d < j + 2 ; ++d)
+            {
+                if (schedule[i][d][2]) // Evening shift
+                    night_shift_count++;
+            }
+
+            if (night_shift_count >= 2)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_between_2_and_4_evening_or_night_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 7; ++j)
+        {
+            int e_or_n_shifts_count = 0;
+            for (int d = j; d < j + 7 ; ++d)
+            {
+                if (schedule[i][d][1]) // Evening shift
+                    e_or_n_shifts_count++;
+                if (schedule[i][d][2]) // Night shift
+                    e_or_n_shifts_count++;
+            }
+
+            if (e_or_n_shifts_count < 2 || e_or_n_shifts_count > 4)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool NRPSolver::verify_at_most_6_work_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule)
+{
+    int number_of_nurses = GlobalData::get_number_nurses();
+    int schedule_period = GlobalData::get_schedule_period();
+
+    for (int i = 0; i < number_of_nurses; i++)
+    {
+        for (int j = 0; j <= schedule_period - 7; ++j)
+        {
+            int work_shift_count = 0;
+            for (int d = j; d < j + 7 ; ++d)
+            {
+                if (schedule[i][d][0]) // Day shift
+                    work_shift_count++;
+                if (schedule[i][d][1]) // Evening shift
+                    work_shift_count++;
+                if (schedule[i][d][2]) // Night shift
+                    work_shift_count++;
+            }
+
+            if (work_shift_count > 6)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
