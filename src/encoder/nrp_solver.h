@@ -50,18 +50,6 @@ private:
     void create_nrp_pid();
 
     int do_nrp_task();
-
-
-    bool verify_nrp_solution(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_at_least_20_work_shifts_every_28_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_at_least_4_off_days_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_between_1_and_4_night_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_between_4_and_8_evening_shifts_every_14_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_night_shifts_cannot_appear_on_consecutive_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_between_2_and_4_evening_or_night_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-    bool verify_at_most_6_work_shifts_every_7_days(const std::vector<std::vector<std::vector<bool>>>& schedule);
-
-
 };
 
 #endif // NRP_SOLVER_H

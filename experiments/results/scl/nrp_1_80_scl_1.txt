@@ -4,34 +4,24 @@ c [Config] Schedule period is set to 80.
 c [Config] Encoding type is set to SCL.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 4157.
-c [NRPSolver] Start task in PID: 4158.
+c [NRPSolver] Lim pid is forked at 15600.
+c [NRPSolver] Start task in PID: 15601.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
 c [NRPEncoderSCL] Encoder initialized for 1 nurses over 80 days.
-c [NRPSolver] RESULT VERIFICATION =============================
-c [NRPSolver] Verification passed: at least 20 work shifts every 28 days.
-c [NRPSolver] Verification passed: at least 4 off days every 14 days.
-c [NRPSolver] Verification passed: between 1 and 4 night shifts every 14 days.
-c [NRPSolver] Verification passed: between 4 and 8 evening shifts every 14 days.
-c [NRPSolver] Verification passed: night shifts cannot appear on consecutive days.
-c [NRPSolver] Verification passed: between 2 and 4 evening or night shifts every 7 days.
-c [NRPSolver] Verification passed: at most 6 work shifts every 7 days.
-c [NRPSolver] All verifications passed.
-c [NRPSolver] =================================================
 r [NRPSolver] RESULT =============================
 r [NRPSolver] Schedule for nurse 0:	D D D D N E O D O O E E E O D D D N D E O D O O E E E O N D D D D E O E O O D E E O N D D D D E O E O O D E E O N D D D D E O E O O D E E O N D D D D E O E O O 
 r [NRPSolver] ====================================
 c [SATSolverCaDiCaL] Total clauses used: 24927
 c [SATSolverCaDiCal] Duplicate clauses found: 700
 c [VarHandler] Total variables used: 6168.
-c [Lim] Start task in PID: 4157.
+c [Lim] Start task in PID: 15600.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 4157.
-c [NRPSolver] NRP pid is forked at 4158.
+c [NRPSolver] Lim pid is forked at 15600.
+c [NRPSolver] NRP pid is forked at 15601.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     4.9 MB
-c [NRPSolver] Wall clock time: 0.0725683 s
+c [NRPSolver] Peak memory:     7.2 MB
+c [NRPSolver] Wall clock time: 0.0487829 s
 c [NRPSolver] ====================================

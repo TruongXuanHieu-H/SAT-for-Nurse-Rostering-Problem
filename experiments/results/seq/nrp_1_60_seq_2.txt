@@ -4,34 +4,24 @@ c [Config] Schedule period is set to 60.
 c [Config] Encoding type is set to Seq.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 4577.
-c [NRPSolver] Start task in PID: 4578.
+c [NRPSolver] Lim pid is forked at 15699.
+c [NRPSolver] Start task in PID: 15700.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
 c [NRPEncoderSeq] Encoder initialized for 1 nurses over 60 days.
-c [NRPSolver] RESULT VERIFICATION =============================
-c [NRPSolver] Verification passed: at least 20 work shifts every 28 days.
-c [NRPSolver] Verification passed: at least 4 off days every 14 days.
-c [NRPSolver] Verification passed: between 1 and 4 night shifts every 14 days.
-c [NRPSolver] Verification passed: between 4 and 8 evening shifts every 14 days.
-c [NRPSolver] Verification passed: night shifts cannot appear on consecutive days.
-c [NRPSolver] Verification passed: between 2 and 4 evening or night shifts every 7 days.
-c [NRPSolver] Verification passed: at most 6 work shifts every 7 days.
-c [NRPSolver] All verifications passed.
-c [NRPSolver] =================================================
 r [NRPSolver] RESULT =============================
 r [NRPSolver] Schedule for nurse 0:	D D D D E O E D E N O O E O D D N D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D 
 r [NRPSolver] ====================================
 c [SATSolverCaDiCaL] Total clauses used: 65274
 c [SATSolverCaDiCal] Duplicate clauses found: 0
 c [VarHandler] Total variables used: 34092.
-c [Lim] Start task in PID: 4577.
+c [Lim] Start task in PID: 15699.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 4577.
-c [NRPSolver] NRP pid is forked at 4578.
+c [NRPSolver] Lim pid is forked at 15699.
+c [NRPSolver] NRP pid is forked at 15700.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     28.6 MB
-c [NRPSolver] Wall clock time: 0.127909 s
+c [NRPSolver] Peak memory:     7.2 MB
+c [NRPSolver] Wall clock time: 0.072712 s
 c [NRPSolver] ====================================
