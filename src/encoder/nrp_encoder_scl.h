@@ -44,23 +44,6 @@ class NRPEncoderSCL : public NRPEncoder
         {
             return std::vector<int>(v.begin(), v.begin() + n);
         }
-
-        void print_aux_vars()
-        {
-            std::vector<std::pair<std::string, int>> items(
-                aux_vars.begin(), aux_vars.end()
-            );
-
-            std::sort(items.begin(), items.end(),
-                    [](const auto& a, const auto& b) {
-                        return a.second < b.second;  // sort by VALUE
-                    });
-
-            for (const auto& [key, value] : items)
-            {
-                std::cout << key << " -> " << value << "\n";
-            }
-        }
 };
 
 #endif // NRP_ENCODER_SCL_H
