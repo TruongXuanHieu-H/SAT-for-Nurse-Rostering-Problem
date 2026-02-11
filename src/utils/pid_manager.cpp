@@ -47,11 +47,26 @@ std::vector<int> PIDManager::get_descendant_pids(int ppid)
 
 size_t PIDManager::get_total_memory_usage(int pid)
 {
-    size_t totalMemoryUsage = get_memory_usage(pid);
+    std::unordered_set<int> empty_except;
+    return get_total_memory_usage(pid, empty_except);
+};
+
+size_t PIDManager::get_total_memory_usage(int pid, const std::unordered_set<int>& except_pids)
+{
+    size_t totalMemoryUsage = 0;
 
     std::vector<int> descendant_pids = get_descendant_pids(pid);
+
+    if (except_pids.find(pid) == except_pids.end())
+    {
+        totalMemoryUsage += get_memory_usage(pid);
+    }
+
     for (int descendant_pid : descendant_pids)
     {
+        if (except_pids.find(descendant_pid) != except_pids.end())
+            continue;
+
         totalMemoryUsage += get_memory_usage(descendant_pid);
     }
 

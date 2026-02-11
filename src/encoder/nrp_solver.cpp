@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <unistd.h>
+#include <unordered_set>
 
 #include <iostream>
 #include <cmath>
@@ -146,6 +147,12 @@ void NRPSolver::create_limit_pid()
         std::cout << "c [Lim] Start task in PID: " << getpid() << ".\n";
 
         pid_t main_pid = getppid();
+        pid_t this_pid = getpid();
+        std::unordered_set<int> except_pids = {
+            main_pid,
+            this_pid,
+        };
+
         auto last_sample = Clock::now();
 
         while (true)
@@ -155,7 +162,7 @@ void NRPSolver::create_limit_pid()
             last_sample = now;
             consumed_real_time += delta;
 
-            size_t mem_kb = PIDManager::get_total_memory_usage(main_pid);
+            size_t mem_kb = PIDManager::get_total_memory_usage(main_pid, except_pids);
             consumed_memory = std::round(mem_kb / 102.4f) / 10.0f;
 
             size_t proc_count = PIDManager::get_descendant_pids(main_pid).size() - 1;
