@@ -1,10 +1,14 @@
-Restricted license - for non-production use only - expires 2027-11-29
+Set parameter WLSAccessID
+Set parameter WLSSecret
+Set parameter LicenseID to value 2663665
+Academic license 2663665 - for non-commercial use only - registered to tu___@vnu.edu.vn
 ------------------Gurobi Log------------------
 Gurobi Optimizer version 13.0.1 build v13.0.1rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
 
 CPU model: AMD EPYC 7B12, instruction set [SSE2|AVX|AVX2]
 Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
 
+Academic license 2663665 - for non-commercial use only - registered to tu___@vnu.edu.vn
 Optimize a model with 989 rows, 400 columns and 17426 nonzeros (Min)
 Model fingerprint: 0xf40658df
 Model has 0 linear objective coefficients
@@ -35,10 +39,10 @@ Solution count 1: 0
 Optimal solution found (tolerance 1.00e-04)
 Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
 ------------------Specifications------------------
-Processing Time     : 0.015 seconds
-Optimization Time   : 0.042 seconds
-Total Time          : 0.057 seconds
-Memory Usaged       : 11.61 MB
+Processing Time     : 0.020 seconds
+Optimization Time   : 0.041 seconds
+Total Time          : 0.061 seconds
+Memory Usaged       : 16.48 MB
 ------------------Verifying solution------------------
 All constraints are satisfied.
 ------------------Schedule------------------
