@@ -35,9 +35,7 @@ std::vector<int> NRPEncoderSCL::normalize_expression(const std::vector<int>& ele
     sorted_clause.erase(std::unique(sorted_clause.begin(), sorted_clause.end()), sorted_clause.end());
     if (elements.size() != sorted_clause.size())
     {
-        std::cerr << "w [NRPEncoderSCL] Warning: Duplicate literals found in expression during normalization ";
-        print_vector(elements);
-        std::cout << "\n";
+        std::cerr << "w [NRPEncoderSCL] Warning: Duplicate literals found in expression during normalization.\n";
         exit(-1);
     }
     return sorted_clause;
@@ -135,7 +133,6 @@ void NRPEncoderSCL::encode_between_1_and_4_night_shifts_every_14_days()
             {
                 clause.push_back(night_shift[i][j + m]);
             }
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -199,7 +196,6 @@ void NRPEncoderSCL::encode_night_shifts_cannot_appear_on_consecutive_days()
             Clause clause;
             clause.push_back(-night_shift[i][j]);
             clause.push_back(-night_shift[i][j+1]);
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -345,7 +341,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
         Clause clause;
         clause.push_back(-block_literals[j - 1]);
         clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), 1));
-        print_clause(clause);
         sat_solver->add_clause(clause);
     }
 
@@ -356,7 +351,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
             Clause clause;
             clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s));
             clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -369,7 +363,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
             clause.push_back(-block_literals[j - 1]);
             clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
             clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -380,7 +373,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
         Clause clause;
         clause.push_back(block_literals[j - 1]);
         clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), j));
-        print_clause(clause);
         sat_solver->add_clause(clause);
     }
 
@@ -392,7 +384,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
             Clause clause;
             clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
             clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -405,7 +396,6 @@ void NRPEncoderSCL::encode_connect_block(const std::vector<int>& block_literals,
             clause.push_back(block_literals[j - 1]);
             clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s));
             clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -428,7 +418,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             Clause clause;
             clause.push_back(-block_literals[j - 1]);
             clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), 1));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
 
@@ -439,7 +428,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
                 Clause clause;
                 clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s));
                 clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
         }
@@ -452,7 +440,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
                 clause.push_back(-block_literals[j - 1]);
                 clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
                 clause.push_back(get_aux_value(get_first_n_elements(block_literals, j), s));
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
         }
@@ -463,7 +450,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
             Clause clause;
             clause.push_back(block_literals[j - 1]);
             clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), j));
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
 
@@ -474,7 +460,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
                 Clause clause;
                 clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s - 1));
                 clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
         }
@@ -487,7 +472,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
                 clause.push_back(block_literals[j - 1]);
                 clause.push_back(get_aux_value(get_first_n_elements(block_literals, j - 1), s));
                 clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j), s));
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
         }
@@ -499,7 +483,6 @@ void NRPEncoderSCL::encode_amk_block(const std::vector<int>& block_literals, int
         Clause clause;
         clause.push_back(-block_literals[j - 1]);
         clause.push_back(-get_aux_value(get_first_n_elements(block_literals, j - 1), k));
-        print_clause(clause);
         sat_solver->add_clause(clause);
     }
 }
@@ -525,7 +508,6 @@ void NRPEncoderSCL::connect_blocks(const std::vector<int>& first_block, const st
             clause.push_back(-get_aux_value(second_expression, bound_right));
 
             sat_solver->add_clause(clause);
-            print_clause(clause);
         }
     }
 }

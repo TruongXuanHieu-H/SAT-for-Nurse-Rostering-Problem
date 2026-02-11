@@ -62,7 +62,6 @@ void NRPEncoderBDD::encode_at_least_20_work_shifts_every_28_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -98,7 +97,6 @@ void NRPEncoderBDD::encode_at_least_4_off_days_every_14_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -127,7 +125,6 @@ void NRPEncoderBDD::encode_between_1_and_4_night_shifts_every_14_days()
             {
                 clause.push_back(night_shift[i][j + m]);
             }
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -150,7 +147,6 @@ void NRPEncoderBDD::encode_between_1_and_4_night_shifts_every_14_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -186,7 +182,6 @@ void NRPEncoderBDD::encode_between_4_and_8_evening_shifts_every_14_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -206,7 +201,6 @@ void NRPEncoderBDD::encode_between_4_and_8_evening_shifts_every_14_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -232,7 +226,6 @@ void NRPEncoderBDD::encode_night_shifts_cannot_appear_on_consecutive_days()
             Clause clause;
             clause.push_back(-night_shift[i][j]);
             clause.push_back(-night_shift[i][j+1]);
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -267,7 +260,6 @@ void NRPEncoderBDD::encode_between_2_and_4_evening_or_night_shifts_every_7_days(
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -287,7 +279,6 @@ void NRPEncoderBDD::encode_between_2_and_4_evening_or_night_shifts_every_7_days(
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);
@@ -323,7 +314,6 @@ void NRPEncoderBDD::encode_at_most_6_work_shifts_every_7_days()
                 {
                     clause.pop_back();      // Remove the lastest element if it is 0.
                 }
-                print_clause(clause);
                 sat_solver->add_clause(clause);
             }
             update_var_handler(clauses);

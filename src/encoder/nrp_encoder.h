@@ -86,25 +86,6 @@ class NRPEncoder
         virtual void encode_night_shifts_cannot_appear_on_consecutive_days() = 0;
         virtual void encode_between_2_and_4_evening_or_night_shifts_every_7_days() = 0;
         virtual void encode_at_most_6_work_shifts_every_7_days() = 0;
-
-        void print_vector(const std::vector<int>& vec)
-        {
-            for (const auto& val : vec)
-            {
-                std::cout << val << " ";
-            }
-        }
-
-        bool is_print_clause = false;
-        void print_clause(const Clause& clause)
-        {
-            (void)clause;
-            if (!is_print_clause)
-                return;
-
-            print_vector(clause);
-            std::cout << "0\n";
-        }
 };
 
 #endif // NRP_ENCODER_H

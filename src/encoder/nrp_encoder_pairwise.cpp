@@ -75,7 +75,6 @@ void NRPEncoderPairwise::encode_between_1_and_4_night_shifts_every_14_days()
             {
                 clause.push_back(night_shift[i][j + m]);
             }
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
@@ -139,7 +138,6 @@ void NRPEncoderPairwise::encode_night_shifts_cannot_appear_on_consecutive_days()
             Clause clause;
             clause.push_back(-night_shift[i][j]);
             clause.push_back(-night_shift[i][j+1]);
-            print_clause(clause);
             sat_solver->add_clause(clause);
         }
     }
