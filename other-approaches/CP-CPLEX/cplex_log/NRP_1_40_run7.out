@@ -15,15 +15,15 @@
  ! Using parallel search with 8 workers.
  ! ----------------------------------------------------------------------------
  !               Branches  Non-fixed    W       Branch decision
- *                    257  0.02s        5         0  = x(1)(8)
+ *                    257  0.03s        5         0  = x(1)(8)
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
  ! Number of branches     : 6286
  ! Number of fails        : 2868
  ! Total memory usage     : 9.3 MB (8.8 MB CP Optimizer + 0.4 MB Concert)
- ! Time spent in solve    : 0.03s (0.02s engine + 0.01s extraction)
- ! Search speed (br. / s) : 314300.0
+ ! Time spent in solve    : 0.04s (0.04s engine + 0.01s extraction)
+ ! Search speed (br. / s) : 209533.3
  ! ----------------------------------------------------------------------------
 
 <<< solve
@@ -31,6 +31,10 @@
 
 
 OBJECTIVE: no objective
+===== Nurse Rostering Schedule =====
+Shifts: D=Day, E=Evening, N=Night, O=Off
+
+Nurse 1: E D O N E O O D D O E E E D N D O E E O O E E O D D N D D N O E E O O E E O D E 
 
 <<< post process
 

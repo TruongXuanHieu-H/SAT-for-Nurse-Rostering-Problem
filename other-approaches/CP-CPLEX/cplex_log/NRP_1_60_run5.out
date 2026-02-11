@@ -9,21 +9,21 @@
  ! Presolve      : 141 extractables eliminated, 47 constraints generated
  ! ParallelMode         = 1
  ! Workers              = 8
- ! Initial process time : 0.01s (0.01s extraction + 0.00s propagation)
+ ! Initial process time : 0.02s (0.02s extraction + 0.00s propagation)
  !  . Log search space  : 120.0 (before), 120.0 (after)
  !  . Memory usage      : 662.8 kB (before), 662.8 kB (after)
  ! Using parallel search with 8 workers.
  ! ----------------------------------------------------------------------------
  !               Branches  Non-fixed    W       Branch decision
- *                    452  0.04s        8         0  = x(1)(60)
+ *                    452  0.06s        8         0  = x(1)(60)
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
- ! Number of branches     : 8809
- ! Number of fails        : 3998
- ! Total memory usage     : 12.5 MB (12.1 MB CP Optimizer + 0.4 MB Concert)
- ! Time spent in solve    : 0.05s (0.04s engine + 0.01s extraction)
- ! Search speed (br. / s) : 220225.0
+ ! Number of branches     : 9842
+ ! Number of fails        : 4449
+ ! Total memory usage     : 12.6 MB (12.1 MB CP Optimizer + 0.4 MB Concert)
+ ! Time spent in solve    : 0.07s (0.05s engine + 0.02s extraction)
+ ! Search speed (br. / s) : 246050.0
  ! ----------------------------------------------------------------------------
 
 <<< solve
@@ -31,6 +31,10 @@
 
 
 OBJECTIVE: no objective
+===== Nurse Rostering Schedule =====
+Shifts: D=Day, E=Evening, N=Night, O=Off
+
+Nurse 1: D D D D E E O D E E O N O O D D E D E D O D E E O N O O D E D E E E O D N D O E O O D E D D E E O D N D O E O O D E D D 
 
 <<< post process
 

@@ -94,5 +94,18 @@ constraints {
 // Output + VERIFY
 // ===============================
 execute {
-    
+    writeln("===== Nurse Rostering Schedule =====");
+    writeln("Shifts: D=Day, E=Evening, N=Night, O=Off");
+    writeln();
+
+    for(var i in Nurses) {
+        write("Nurse ", i, ": ");
+        for(var j in Days) {
+            if (x[i][j] == D) write("D ");
+            else if (x[i][j] == E) write("E ");
+            else if (x[i][j] == N) write("N ");
+            else if (x[i][j] == O) write("O ");
+        }
+        writeln();
+    }
 }

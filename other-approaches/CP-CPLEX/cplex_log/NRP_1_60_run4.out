@@ -19,11 +19,11 @@
  ! ----------------------------------------------------------------------------
  ! Search completed, 1 solution found.
  ! ----------------------------------------------------------------------------
- ! Number of branches     : 9224
- ! Number of fails        : 4180
+ ! Number of branches     : 9291
+ ! Number of fails        : 4212
  ! Total memory usage     : 12.5 MB (12.1 MB CP Optimizer + 0.4 MB Concert)
  ! Time spent in solve    : 0.06s (0.04s engine + 0.02s extraction)
- ! Search speed (br. / s) : 307466.7
+ ! Search speed (br. / s) : 309700.0
  ! ----------------------------------------------------------------------------
 
 <<< solve
@@ -31,6 +31,10 @@
 
 
 OBJECTIVE: no objective
+===== Nurse Rostering Schedule =====
+Shifts: D=Day, E=Evening, N=Night, O=Off
+
+Nurse 1: D D D D E E O D E E O N O O D D E D E D O D E E O N O O D E D E E E O D N D O E O O D E D D E E O D N D O E O O D E D D 
 
 <<< post process
 
