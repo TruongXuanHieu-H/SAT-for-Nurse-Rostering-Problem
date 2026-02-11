@@ -96,7 +96,7 @@ bool NRPSolver::encode_and_solve()
             waitpid(lim_pid, &lim_status, 0);
             limit_violated = true;
 
-            std::cout << "c [Lim] Limit violated. Killing NRP.\n";
+            std::cout << "c [LimPid] Limit violated. Killing NRP.\n";
 
             kill(nrp_pid, SIGTERM);
             usleep(10000);
@@ -138,13 +138,13 @@ void NRPSolver::create_limit_pid()
     lim_pid = fork();
     if (lim_pid < 0)
     {
-        std::cerr << "e [Lim] Fork Failed!\n";
+        std::cerr << "e [LimPid] Fork Failed!\n";
         exit(-1);
     }
     else if (lim_pid == 0)
     {
         prctl(PR_SET_PDEATHSIG, SIGTERM);
-        std::cout << "c [Lim] Start task in PID: " << getpid() << ".\n";
+        std::cout << "c [LimPid] Start task in PID: " << getpid() << ".\n";
 
         pid_t main_pid = getppid();
         pid_t this_pid = getpid();
@@ -195,7 +195,7 @@ void NRPSolver::create_nrp_pid()
     else if (nrp_pid == 0)
     {
         prctl(PR_SET_PDEATHSIG, SIGTERM);
-        std::cout << "c [NRPSolver] Start task in PID: " << getpid() << ".\n";
+        std::cout << "c [NRPPid] Start task in PID: " << getpid() << ".\n";
 
         // Child process: perform the task
         int result = do_nrp_task();
@@ -231,7 +231,7 @@ int NRPSolver::do_nrp_task()
             nrp_encoder = new NRPEncoderSeq(sat_solver, var_handler);
             break;
         default:
-            std::cerr << "e [NRPSolver] Unsupported encoding type.\n";
+            std::cerr << "e [NRPPid] Unsupported encoding type.\n";
             return -1;
     }
     nrp_encoder->encode_instance();
@@ -242,16 +242,16 @@ int NRPSolver::do_nrp_task()
 
         if(GlobalData::get_enable_solution_verification() && !verify_nrp_solution(schedule))
         {
-            std::cerr << "e [NRPSolver] Result is incorrect.\n";
+            std::cerr << "e [NRPPid] Result is incorrect.\n";
             exit(-1);
         }
 
         int number_of_nurse = GlobalData::get_number_nurses();
         int schedule_period = GlobalData::get_schedule_period();
-        std::cout << "r [NRPSolver] RESULT =============================\n";
+        std::cout << "r [NRPPid] RESULT =============================\n";
         for (int i = 0; i < number_of_nurse; i++)
         {
-            std::cout << "r [NRPSolver] Schedule for nurse " << i << ":\t";
+            std::cout << "r [NRPPid] Schedule for nurse " << i << ":\t";
             for (int j = 0; j < schedule_period; j++)
             {
                 if (schedule[i][j][0])
@@ -272,21 +272,21 @@ int NRPSolver::do_nrp_task()
                 }
                 else
                 {
-                    std::cout << "\ne [NRPSolver] Error occured in schedule reporting...\n";
+                    std::cout << "\ne [NRPPid] Error occured in schedule reporting...\n";
                     exit(-1);
                 }
             }
             std::cout << "\n";
         }
-        std::cout << "r [NRPSolver] ====================================\n";
+        std::cout << "r [NRPPid] ====================================\n";
     }
     else if (sat_result == 20)
     {
-        std::cout << "r [NRPSolver] No feasible schedule found.\n";
+        std::cout << "r [NRPPid] No feasible schedule found.\n";
     }
     else
     {
-        std::cout << "e [NRPSolver] Unknown error occured for SAT solver...\n";
+        std::cout << "e [NRPPid] Unknown error occured for SAT solver...\n";
     }
     
 
