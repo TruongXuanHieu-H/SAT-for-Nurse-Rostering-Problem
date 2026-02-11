@@ -16,7 +16,7 @@ bool GlobalData::_enable_solution_verification = false;
 int GlobalData::_number_nurses = 0;
 int GlobalData::_schedule_period = 0;
 
-int GlobalData::_sample_rate = 100000;
+int GlobalData::_sample_rate = 10000;
 int GlobalData::_report_rate = 100;
 
 float GlobalData::_memory_limit = std::numeric_limits<float>::max();
