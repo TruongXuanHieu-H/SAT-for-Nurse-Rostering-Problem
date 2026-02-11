@@ -4,8 +4,8 @@ c [Config] Schedule period is set to 40.
 c [Config] Encoding type is set to SCL.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 20354.
-c [NRPSolver] Start task in PID: 20355.
+c [NRPSolver] Lim pid is forked at 34957.
+c [NRPSolver] Start task in PID: 34958.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
@@ -16,12 +16,12 @@ r [NRPSolver] ====================================
 c [SATSolverCaDiCaL] Total clauses used: 10478
 c [SATSolverCaDiCal] Duplicate clauses found: 280
 c [VarHandler] Total variables used: 2611.
-c [Lim] Start task in PID: 20354.
+c [Lim] Start task in PID: 34957.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 20354.
-c [NRPSolver] NRP pid is forked at 20355.
+c [NRPSolver] Lim pid is forked at 34957.
+c [NRPSolver] NRP pid is forked at 34958.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     4.9 MB
-c [NRPSolver] Wall clock time: 0.0284781 s
+c [NRPSolver] Peak memory:     5.6 MB
+c [NRPSolver] Wall clock time: 0.028453 s
 c [NRPSolver] ====================================

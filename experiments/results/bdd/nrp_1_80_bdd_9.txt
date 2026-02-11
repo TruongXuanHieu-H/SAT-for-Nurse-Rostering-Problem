@@ -4,8 +4,8 @@ c [Config] Schedule period is set to 80.
 c [Config] Encoding type is set to BDD.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 16158.
-c [NRPSolver] Start task in PID: 16159.
+c [NRPSolver] Lim pid is forked at 34930.
+c [NRPSolver] Start task in PID: 34931.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
@@ -16,12 +16,12 @@ r [NRPSolver] ====================================
 c [SATSolverCaDiCaL] Total clauses used: 53084
 c [SATSolverCaDiCal] Duplicate clauses found: 0
 c [VarHandler] Total variables used: 28348.
-c [Lim] Start task in PID: 16158.
+c [Lim] Start task in PID: 34930.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 16158.
-c [NRPSolver] NRP pid is forked at 16159.
+c [NRPSolver] Lim pid is forked at 34930.
+c [NRPSolver] NRP pid is forked at 34931.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     21.5 MB
-c [NRPSolver] Wall clock time: 0.155518 s
+c [NRPSolver] Peak memory:     23 MB
+c [NRPSolver] Wall clock time: 0.156624 s
 c [NRPSolver] ====================================

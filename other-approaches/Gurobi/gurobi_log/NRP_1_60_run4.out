@@ -41,7 +41,7 @@ Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
 ------------------Specifications------------------
 Processing Time     : 0.010 seconds
 Optimization Time   : 0.016 seconds
-Total Time          : 0.026 seconds
+Total Time          : 0.027 seconds
 Memory Usaged       : 14.87 MB
 ------------------Verifying solution------------------
 All constraints are satisfied.
