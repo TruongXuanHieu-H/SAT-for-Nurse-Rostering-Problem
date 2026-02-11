@@ -3,7 +3,6 @@ import re
 import argparse
 import pandas as pd
 
-# ===== regex nội dung log =====
 RE_SAT = re.compile(r"RESULT\s+============================")
 RE_KILL = re.compile(r"Limit violated")
 RE_TIME = re.compile(r"Wall clock time:\s*([\d.]+)\s*s")
@@ -11,15 +10,13 @@ RE_MEM = re.compile(r"Peak memory:\s*([\d.]+)\s*MB")
 RE_CLAUSE = re.compile(r"Total clauses used:\s*(\d+)")
 RE_VAR = re.compile(r"Total variables used:\s*(\d+)")
 
-# ===== regex tên file =====
 RE_FILENAME = re.compile(
     r"nrp_(\d+)_(\d+)_([a-zA-Z0-9]+)_(\d+)\.txt"
 )
 
-def main(log_dir, output_excel):
+def main(log_dir, output_dir):
     rows = []
 
-    # ---------- đọc log ----------
     for root, _, files in os.walk(log_dir):
         for fname in files:
             if not fname.endswith(".txt"):
@@ -72,7 +69,7 @@ def main(log_dir, output_excel):
         by=["number_nurse", "work_period", "encoding", "run"]
     )
 
-    # ---------- AVG cho mọi encoding ----------
+    # ---------- AVG ----------
     avg_rows = []
 
     for (n, w, e), g in df.groupby(
@@ -95,27 +92,48 @@ def main(log_dir, output_excel):
         })
 
     avg_df = pd.DataFrame(avg_rows)
-
     final_df = pd.concat([df, avg_df], ignore_index=True)
 
-    final_df = final_df.sort_values(
-        by=["number_nurse", "work_period", "encoding", "run"],
-        key=lambda x: x.astype(str)
-    )
+    os.makedirs(output_dir, exist_ok=True)
 
-    final_df.to_excel(output_excel, index=False)
+    for encoding, enc_df in final_df.groupby("encoding"):
+        out_file = os.path.join(
+            output_dir,
+            f"nrp_sat_{encoding}_exp_results.xlsx"
+        )
 
-    print(f"✓ Runs extracted: {len(df)}")
-    print(f"✓ AVG rows added: {len(avg_df)}")
-    print(f"✓ Output written to: {output_excel}")
+        with pd.ExcelWriter(out_file, engine="openpyxl") as writer:
+            for (n, w), g in enc_df.groupby(
+                ["number_nurse", "work_period"]
+            ):
+                sheet_name = f"n{n}_d{w}"
 
+                g = g.copy()
+                g["__run_order"] = g["run"].apply(
+                    lambda x: x if isinstance(x, int) else 10**9
+                )
+                g = g.sort_values("__run_order").drop(
+                    columns="__run_order"
+                )
+
+                g.to_excel(
+                    writer,
+                    sheet_name=sheet_name,
+                    index=False
+                )
+
+        print(f"[OK] Written: {out_file}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="NRP benchmark extractor with AVG for all encodings"
+        description="NRP benchmark extractor (per encoding, per instance sheets)"
     )
     parser.add_argument("log_dir", help="Root results directory")
-    parser.add_argument("output", help="Output Excel file (.xlsx)")
+    parser.add_argument(
+        "-o", "--output_dir",
+        default=".",
+        help="Output directory for Excel files"
+    )
 
     args = parser.parse_args()
-    main(args.log_dir, args.output)
+    main(args.log_dir, args.output_dir)
