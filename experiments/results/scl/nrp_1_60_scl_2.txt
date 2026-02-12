@@ -4,24 +4,25 @@ c [Config] Schedule period is set to 60.
 c [Config] Encoding type is set to SCL.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 34466.
-c [NRPSolver] Start task in PID: 34467.
+free(): invalid pointer
+c [NRPSolver] Lim pid is forked at 4718.
+c [NRPPid] Start task in PID: 4719.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
 c [NRPEncoderSCL] Encoder initialized for 1 nurses over 60 days.
-r [NRPSolver] RESULT =============================
-r [NRPSolver] Schedule for nurse 0:	D D D D N E O D O O E E E O D D D N D E O D O O E E E O N D D D D E O E O O D E E O N D D D D E O E O O D E E O N D D D 
-r [NRPSolver] ====================================
-c [SATSolverCaDiCaL] Total clauses used: 18297
-c [SATSolverCaDiCal] Duplicate clauses found: 520
-c [VarHandler] Total variables used: 4561.
-c [Lim] Start task in PID: 34466.
+r [NRPPid] RESULT =============================
+r [NRPPid] Schedule for nurse 0:	D D D D N E O D O O E E E O D D D N D E O D O O E E E O N D D D D E O E O O D E E O N D D D D E O E O O D E E O N D D D 
+r [NRPPid] ====================================
+c [Signal] Signal interruption. Caught signal: SIGABRT (6).
+c [LimPid] Start task in PID: 4718.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 34466.
-c [NRPSolver] NRP pid is forked at 34467.
+c [NRPSolver] Lim pid is forked at 4718.
+c [NRPSolver] NRP pid is forked at 4719.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     8.7 MB
-c [NRPSolver] Wall clock time: 0.0390949 s
+c [NRPSolver] Peak memory:	8.6 MB
+c [NRPSolver] Encoding time:	0.0199553 s
+c [NRPSolver] Solving time:	0.00513706 s
+c [NRPSolver] Total time:	0.0250924 s
 c [NRPSolver] ====================================

@@ -4,18 +4,20 @@ c [Config] Schedule period is set to 40.
 c [Config] Encoding type is set to Pairwise.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [Lim] Start task in PID: 6276.
-c [NRPSolver] Lim pid is forked at 6276.
-c [NRPSolver] Start task in PID: 6277.
+c [LimPid] Start task in PID: 5536.
+c [NRPSolver] Lim pid is forked at 5536.
+c [NRPPid] Start task in PID: 5537.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
 c [NRPEncoderPairwise] Encoder initialized for 1 nurses over 40 days.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 6276.
-c [NRPSolver] NRP pid is forked at 6277.
-c [Lim] Limit violated. Killing NRP.
+c [NRPSolver] Lim pid is forked at 5536.
+c [NRPSolver] NRP pid is forked at 5537.
+c [LimPid] Limit violated. Killing NRP.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     5003.4 MB
-c [NRPSolver] Wall clock time: 62.9103 s
+c [NRPSolver] Peak memory:	5041.6 MB
+c [NRPSolver] Encoding time:	32.1895 s
+c [NRPSolver] Solving time:	0 s
+c [NRPSolver] Total time:	32.1895 s
 c [NRPSolver] ====================================

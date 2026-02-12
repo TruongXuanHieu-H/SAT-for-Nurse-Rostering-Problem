@@ -31,12 +31,28 @@ NRPSolver::NRPSolver()
         exit(1);
     }
 
+    encoding_time = static_cast<float*>(mmap(nullptr, sizeof(float), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0));
+    if (encoding_time == MAP_FAILED)
+    {
+        std::cerr << "e Error in mmap for encoding_time.\n";
+        exit(1);
+    }
+
+    solving_time = static_cast<float*>(mmap(nullptr, sizeof(float), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0));
+    if (solving_time == MAP_FAILED)
+    {
+        std::cerr << "e Error in mmap for solving_time.\n";
+        exit(1);
+    }
+
     reset_state();
 }
 
 NRPSolver::~NRPSolver()
 {
     munmap(max_consumed_memory, sizeof(float));
+    munmap(encoding_time, sizeof(float));
+    munmap(solving_time, sizeof(float));
 }
 
 void NRPSolver::reset_state()
@@ -46,6 +62,8 @@ void NRPSolver::reset_state()
     consumed_elapsed_time = 0.0f;
     sampler_count = 0;
     *max_consumed_memory = 0.0f;
+    *encoding_time = 0.0f;
+    *solving_time = 0.0f;
 }
 
 LimitViolation NRPSolver::check_limit() const
@@ -66,8 +84,6 @@ bool NRPSolver::encode_and_solve()
 {
     reset_state();
     fflush(stdout);
-
-    auto wall_start = Clock::now();
 
     create_limit_pid();
     create_nrp_pid();
@@ -118,13 +134,12 @@ bool NRPSolver::encode_and_solve()
         }
     }
 
-    auto wall_end = Clock::now();
-    double wall_time = std::chrono::duration<double>(wall_end - wall_start).count();
-
     // Report
     std::cout << "c [NRPSolver] STATISTICS =========================\n";
-    std::cout << "c [NRPSolver] Peak memory:     " << *max_consumed_memory << " MB\n";
-    std::cout << "c [NRPSolver] Wall clock time: " << wall_time << " s\n";
+    std::cout << "c [NRPSolver] Peak memory:\t" << *max_consumed_memory << " MB\n";
+    std::cout << "c [NRPSolver] Encoding time:\t" << *encoding_time << " s\n";
+    std::cout << "c [NRPSolver] Solving time:\t" << *solving_time << " s\n";
+    std::cout << "c [NRPSolver] Total time:\t" << *encoding_time + *solving_time << " s\n";
     std::cout << "c [NRPSolver] ====================================\n";
 
     if (limit_violated)
@@ -234,8 +249,17 @@ int NRPSolver::do_nrp_task()
             std::cerr << "e [NRPPid] Unsupported encoding type.\n";
             return -1;
     }
+
+    auto encoding_start_time = Clock::now();
     nrp_encoder->encode_instance();
+    auto encoding_end_time = Clock::now();
+    *encoding_time = std::chrono::duration<double>(encoding_end_time - encoding_start_time).count();
+    
+    auto solving_start_time = Clock::now();
     int sat_result = sat_solver->solve();
+    auto solving_end_time = Clock::now();
+    *solving_time = std::chrono::duration<double>(solving_end_time - solving_start_time).count();
+
     if (sat_result == 10)
     {
         std::vector<std::vector<std::vector<bool>>> schedule = sat_solver->extract_result();

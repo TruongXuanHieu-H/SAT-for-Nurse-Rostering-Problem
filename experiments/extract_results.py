@@ -5,7 +5,9 @@ import pandas as pd
 
 RE_SAT = re.compile(r"RESULT\s+============================")
 RE_KILL = re.compile(r"Limit violated")
-RE_TIME = re.compile(r"Wall clock time:\s*([\d.]+)\s*s")
+RE_ENCODING_TIME = re.compile(r"Encoding time:\s*([\d.]+)\s*s")
+RE_SOLVING_TIME = re.compile(r"Solving time:\s*([\d.]+)\s*s")
+RE_TOTAL_TIME = re.compile(r"Total time:\s*([\d.]+)\s*s")
 RE_MEM = re.compile(r"Peak memory:\s*([\d.]+)\s*MB")
 RE_CLAUSE = re.compile(r"Total clauses used:\s*(\d+)")
 RE_VAR = re.compile(r"Total variables used:\s*(\d+)")
@@ -35,8 +37,14 @@ def main(log_dir, output_dir):
             solved = bool(RE_SAT.search(content))
             killed = bool(RE_KILL.search(content))
 
-            m_time = RE_TIME.search(content)
-            wall_time = float(m_time.group(1)) if m_time else None
+            m_enc = RE_ENCODING_TIME.search(content)
+            encoding_time = float(m_enc.group(1)) if m_enc else None
+
+            m_sol = RE_SOLVING_TIME.search(content)
+            solving_time = float(m_sol.group(1)) if m_sol else None
+
+            m_tot = RE_TOTAL_TIME.search(content)
+            total_time = float(m_tot.group(1)) if m_tot else None
 
             m_mem = RE_MEM.search(content)
             peak_mem = float(m_mem.group(1)) if m_mem else None
@@ -57,7 +65,9 @@ def main(log_dir, output_dir):
                 "encoding": encoding,
                 "run": int(run),
                 "solved": solved,
-                "wall_time_sec": wall_time,
+                "encoding_time_sec": encoding_time,
+                "solving_time_sec": solving_time,
+                "total_time_sec": total_time,
                 "peak_memory_mb": peak_mem,
                 "total_clauses": total_clauses,
                 "total_variables": total_vars
@@ -83,7 +93,9 @@ def main(log_dir, output_dir):
             "encoding": e,
             "run": "AVG",
             "solved": solved_runs.shape[0] > 0,
-            "wall_time_sec": g["wall_time_sec"].mean(),
+            "encoding_time_sec": g["encoding_time_sec"].mean(),
+            "solving_time_sec": g["solving_time_sec"].mean(),
+            "total_time_sec": g["total_time_sec"].mean(),
             "peak_memory_mb": g["peak_memory_mb"].mean(),
             "total_clauses": solved_runs["total_clauses"].mean()
                 if not solved_runs.empty else None,

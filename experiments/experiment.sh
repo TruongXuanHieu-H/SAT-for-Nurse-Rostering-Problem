@@ -4,7 +4,7 @@ LIMIT_MEMORY=5000
 LIMIT_REAL_TIME=600
 
 NURSES=(1)
-ENCODINGS=(pairwise bdd card scl seq)
+ENCODINGS=(pairwise)
 DAYS=(40 60 80 100)
 RUNS=10
 

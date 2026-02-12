@@ -4,24 +4,25 @@ c [Config] Schedule period is set to 80.
 c [Config] Encoding type is set to Seq.
 c [Config] Memory limit is set to 5000.
 c [Config] Real time limit is set to 600.
-c [NRPSolver] Lim pid is forked at 34486.
-c [NRPSolver] Start task in PID: 34487.
+free(): invalid pointer
+c [NRPSolver] Lim pid is forked at 4936.
+c [NRPPid] Start task in PID: 4937.
 c [VarHandler] Variable handler initialized. Starting variable ID: 1.
 c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
 c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
 c [NRPEncoderSeq] Encoder initialized for 1 nurses over 80 days.
-r [NRPSolver] RESULT =============================
-r [NRPSolver] Schedule for nurse 0:	D D D D E O E D E N O O E O D D N D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D 
-r [NRPSolver] ====================================
-c [SATSolverCaDiCaL] Total clauses used: 94454
-c [SATSolverCaDiCal] Duplicate clauses found: 0
-c [VarHandler] Total variables used: 49292.
-c [Lim] Start task in PID: 34486.
+r [NRPPid] RESULT =============================
+r [NRPPid] Schedule for nurse 0:	D D D D E O E D E N O O E O D D N D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D 
+r [NRPPid] ====================================
+c [Signal] Signal interruption. Caught signal: SIGABRT (6).
+c [LimPid] Start task in PID: 4936.
 c [Signal] Signal interruption. Caught signal: SIGTERM (15).
-c [NRPSolver] Lim pid is forked at 34486.
-c [NRPSolver] NRP pid is forked at 34487.
+c [NRPSolver] Lim pid is forked at 4936.
+c [NRPSolver] NRP pid is forked at 4937.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
-c [NRPSolver] Peak memory:     40.8 MB
-c [NRPSolver] Wall clock time: 0.110633 s
+c [NRPSolver] Peak memory:	40.1 MB
+c [NRPSolver] Encoding time:	0.0660911 s
+c [NRPSolver] Solving time:	0.0152354 s
+c [NRPSolver] Total time:	0.0813265 s
 c [NRPSolver] ====================================

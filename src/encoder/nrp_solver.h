@@ -38,6 +38,8 @@ private:
     float consumed_real_time = 0.0f;     // s
     float consumed_elapsed_time = 0.0f;  // s
     float* max_consumed_memory = nullptr;
+    float* encoding_time = nullptr;
+    float* solving_time = nullptr;
     
     // Sampler
     size_t sampler_count = 0;
