@@ -1,9 +1,9 @@
 ------------------CP-SAT Stats------------------
 Status             : OPTIMAL
 Processing Time    : 0.009s
-Solving Time       : 0.070s
-Total Time         : 0.079s
-Memory Used        : 18.99 MB
+Solving Time       : 0.074s
+Total Time         : 0.083s
+Memory Used        : 19.19 MB
 ------------------Verifying solution------------------
 All constraints are satisfied.
 ------------------Schedule------------------

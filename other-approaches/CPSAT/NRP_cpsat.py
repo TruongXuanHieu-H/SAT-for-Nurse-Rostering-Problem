@@ -5,13 +5,6 @@ import os
 from ortools.sat.python import cp_model
 
 # ===============================
-# Resource tracking
-# ===============================
-process = psutil.Process(os.getpid())
-mem_before = process.memory_info().rss / (1024 * 1024)
-start_processing_time = time.time()
-
-# ===============================
 # Parameters
 # ===============================
 number_nurses = int(sys.argv[1])
@@ -24,6 +17,13 @@ NURSES = range(number_nurses)
 DAYS = range(number_days)
 WORK_SHIFTS = range(3)
 SHIFTS = range(4)
+
+# ===============================
+# Resource tracking
+# ===============================
+process = psutil.Process(os.getpid())
+mem_before = process.memory_info().rss / (1024 * 1024)
+start_processing_time = time.time()
 
 # ===============================
 # Model

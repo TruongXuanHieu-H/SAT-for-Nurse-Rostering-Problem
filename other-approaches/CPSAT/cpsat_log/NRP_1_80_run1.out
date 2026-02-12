@@ -3,7 +3,7 @@ Status             : OPTIMAL
 Processing Time    : 0.013s
 Solving Time       : 0.125s
 Total Time         : 0.138s
-Memory Used        : 25.99 MB
+Memory Used        : 26.01 MB
 ------------------Verifying solution------------------
 All constraints are satisfied.
 ------------------Schedule------------------
