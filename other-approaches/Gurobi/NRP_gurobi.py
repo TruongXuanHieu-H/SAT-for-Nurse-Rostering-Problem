@@ -5,10 +5,6 @@ import time
 import psutil
 import os
 
-process = psutil.Process(os.getpid())
-mem_before = process.memory_info().rss / (1024 * 1024)
-start_processing_time = time.time()
-
 # Parameters
 number_nurses = int(sys.argv[1]) # Number of nurses
 number_days = int(sys.argv[2]) # Number of days
@@ -22,6 +18,10 @@ NURSES = range(number_nurses)
 DAYS = range(number_days)     
 WORK_SHIFTS = range(number_shifts_per_day)
 SHIFTS = range(number_shifts_per_day + 1)
+
+process = psutil.Process(os.getpid())
+mem_before = process.memory_info().rss / (1024 * 1024)
+start_processing_time = time.time()
 
 model = gp.Model("Nurse Scheduling")
 x = model.addVars(NURSES, DAYS, SHIFTS, vtype=GRB.BINARY, name="x")
