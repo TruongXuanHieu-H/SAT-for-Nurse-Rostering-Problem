@@ -39,9 +39,9 @@ Optimal solution found (tolerance 1.00e-04)
 Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
 ------------------Specifications------------------
 Processing Time     : 0.014 seconds
-Optimization Time   : 0.028 seconds
-Total Time          : 0.043 seconds
-Memory Usaged       : 18.42 MB
+Optimization Time   : 0.027 seconds
+Total Time          : 0.041 seconds
+Memory Usaged       : 18.47 MB
 ------------------Verifying solution------------------
 All constraints are satisfied.
 ------------------Schedule------------------
