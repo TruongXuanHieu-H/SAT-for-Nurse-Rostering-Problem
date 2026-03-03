@@ -3,6 +3,7 @@ import numpy as np
 
 x = np.array([40, 60, 80, 100])
 
+y_adder = np.array([192, 302, 419, 535])
 y_bdd = np.array([49, 94, 145, 187])
 y_card = np.array([107, 143, 180, 212])
 y_pairwise = np.array([np.nan, np.nan, np.nan, np.nan])  # MO
@@ -14,9 +15,10 @@ y_cplex = np.array([38, 57, 81, 82])
 y_cpsat = np.array([59, 83, 140, 148])
 y_gurobi = np.array([18, 27, 41, 59])
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(7,5))
 
 # Theo đúng quy ước màu cố định của bạn
+plt.plot(x, y_adder,    linestyle='--',  color='teal',    label="Adder", linewidth=2)
 plt.plot(x, y_pairwise, linestyle=':',  color='blue',   label="Pairwise", linewidth=2)
 plt.plot(x, y_seq,      linestyle='--', color='orange', label="Seq", linewidth=2)
 plt.plot(x, y_bdd,      linestyle='-.', color='purple', label="BDD", linewidth=2)
@@ -30,7 +32,6 @@ plt.plot(x, y_gurobi,   linestyle='-',  color='olive',  label="Gurobi", linewidt
 
 plt.xlabel("Work Period (days)")
 plt.ylabel("Time (ms)")
-plt.title("NRP Solving Time Comparison")
 plt.xticks(x)
 plt.grid(True)
 plt.legend()

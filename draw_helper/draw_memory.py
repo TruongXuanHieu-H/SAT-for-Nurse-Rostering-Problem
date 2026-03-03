@@ -4,6 +4,7 @@ import numpy as np
 x = np.array([40, 60, 80, 100])
 
 # Memory (MB)
+y_adder = np.array([9.6, 15, 19.3, 26.4]) 
 y_bdd = np.array([8.9, 15.2, 23, 28])
 y_card = np.array([10.8, 16.7, 24.5, 29.5])
 y_pairwise = np.array([np.nan, np.nan, np.nan, np.nan])  # MO
@@ -13,9 +14,10 @@ y_cplex = np.array([9.3, 12.5, 16, 19.4])
 y_cpsat = np.array([17.1, 19.1, 26, 29.9])
 y_gurobi = np.array([15.4, 14.8, 18.4, 16.4])
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(7,5))
 
 # Encoding cố định
+plt.plot(x, y_adder,    linestyle='--',  color='teal',    label="Adder", linewidth=2)
 plt.plot(x, y_pairwise, linestyle=':',  color='blue',   label="Pairwise", linewidth=2)
 plt.plot(x, y_seq,      linestyle='--', color='orange', label="Seq", linewidth=2)
 plt.plot(x, y_bdd,      linestyle='-.', color='purple', label="BDD", linewidth=2)
@@ -29,7 +31,6 @@ plt.plot(x, y_gurobi,   linestyle='-',  color='olive', label="Gurobi", linewidth
 
 plt.xlabel("Work Period (days)")
 plt.ylabel("Memory (MB)")
-plt.title("NRP Memory Consumption Comparison")
 plt.xticks(x)
 plt.grid(True)
 plt.legend()
