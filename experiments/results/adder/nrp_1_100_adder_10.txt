@@ -1,0 +1,29 @@
+c [Version] Nurse Rostering Encoder version 1.0.0.
+c [Config] Number of nurses is set to 1.
+c [Config] Schedule period is set to 100.
+c [Config] Encoding type is set to Adder.
+c [Config] Memory limit is set to 5000.
+c [Config] Real time limit is set to 600.
+c [NRPSolver] Lim pid is forked at 5266.
+c [NRPPid] Start task in PID: 5267.
+c [VarHandler] Variable handler initialized. Starting variable ID: 1.
+c [SATSolverCaDiCaL] Initializing CaDiCaL (version 1.2.1).
+c [SATSolverCaDiCaL] Configuring CaDiCaL as --sat (1).
+c [NRPEncoderAdder] Encoder initialized for 1 nurses over 100 days.
+r [NRPPid] RESULT =============================
+r [NRPPid] Schedule for nurse 0:	D D D D E O E D E N O O E O D D N D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N D D E O E D E D O O E O D N 
+r [NRPPid] ====================================
+c [SATSolverCaDiCaL] Total clauses used: 65123
+c [SATSolverCaDiCal] Duplicate clauses found: 0
+c [VarHandler] Total variables used: 30185.
+c [LimPid] Start task in PID: 5266.
+c [Signal] Signal interruption. Caught signal: SIGTERM (15).
+c [NRPSolver] Lim pid is forked at 5266.
+c [NRPSolver] NRP pid is forked at 5267.
+c [NRPSolver] Solver finished. Killing Lim.
+c [NRPSolver] STATISTICS =========================
+c [NRPSolver] Peak memory:	26.6 MB
+c [NRPSolver] Encoding time:	0.519026 s
+c [NRPSolver] Solving time:	0.013967 s
+c [NRPSolver] Total time:	0.532993 s
+c [NRPSolver] ====================================

@@ -5,6 +5,7 @@
 
 enum class EncodeType
 {
+    Adder,      // Adder encoding
     BDD,        // Binary decision diagram
     Card,       // Cardinality
     Pairwise,   // Reduced pairwise
@@ -15,6 +16,8 @@ enum class EncodeType
 
 inline std::string encode_type_to_string(EncodeType type) {
     switch (type) {
+        case EncodeType::Adder:    
+            return "Adder";
         case EncodeType::BDD:      
             return "BDD";
         case EncodeType::Card:     

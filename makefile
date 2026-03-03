@@ -39,6 +39,7 @@ INCLUDES := -I$(CADICAL_INC) -I$(PBLIB_INC)
 # Source files
 # ================================
 SOURCES := \
+	encoder/nrp_encoder_adder.cpp \
 	encoder/nrp_encoder_bdd.cpp \
 	encoder/nrp_encoder_card.cpp \
 	encoder/nrp_encoder_pairwise.cpp \

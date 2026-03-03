@@ -1,4 +1,5 @@
 #include "nrp_solver.h"
+#include "nrp_encoder_adder.h"
 #include "nrp_encoder_bdd.h"
 #include "nrp_encoder_card.h"
 #include "nrp_encoder_pairwise.h"
@@ -230,6 +231,9 @@ int NRPSolver::do_nrp_task()
 
     switch (GlobalData::get_encode_type())
     {
+        case EncodeType::Adder:
+            nrp_encoder = new NRPEncoderAdder(sat_solver, var_handler);
+            break;
         case EncodeType::BDD:
             nrp_encoder = new NRPEncoderBDD(sat_solver, var_handler);
             break;

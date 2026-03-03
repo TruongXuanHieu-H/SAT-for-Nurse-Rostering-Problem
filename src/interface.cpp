@@ -73,6 +73,10 @@ int main(int argc, char **argv)
             if (!GlobalData::set_schedule_period(schedule_period))
                 return 1;
         }
+        else if (argv[i] == std::string("--adder"))
+        {
+            GlobalData::set_encode_type(EncodeType::Adder);
+        }
         else if (argv[i] == std::string("--bdd"))
         {
             GlobalData::set_encode_type(EncodeType::BDD);
