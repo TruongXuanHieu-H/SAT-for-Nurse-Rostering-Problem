@@ -138,8 +138,6 @@ bool NRPSolver::encode_and_solve()
     // Report
     std::cout << "c [NRPSolver] STATISTICS =========================\n";
     std::cout << "c [NRPSolver] Peak memory:\t" << *max_consumed_memory << " MB\n";
-    std::cout << "c [NRPSolver] Encoding time:\t" << *encoding_time << " s\n";
-    std::cout << "c [NRPSolver] Solving time:\t" << *solving_time << " s\n";
     std::cout << "c [NRPSolver] Total time:\t" << *encoding_time + *solving_time << " s\n";
     std::cout << "c [NRPSolver] ====================================\n";
 

@@ -22,7 +22,5 @@ c [NRPSolver] NRP pid is forked at 4288.
 c [NRPSolver] Solver finished. Killing Lim.
 c [NRPSolver] STATISTICS =========================
 c [NRPSolver] Peak memory:	8.7 MB
-c [NRPSolver] Encoding time:	0.0459506 s
-c [NRPSolver] Solving time:	0.0026963 s
 c [NRPSolver] Total time:	0.0486469 s
 c [NRPSolver] ====================================
